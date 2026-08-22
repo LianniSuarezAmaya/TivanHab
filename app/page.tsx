@@ -1,69 +1,63 @@
-import Image from "next/image";
+'use client'
+import { getMoodProductivyCorrelation } from "@/store/utils/stadistics.utils";
+import BarChart from "@/ui/stadistics/components/Chart";
+import MiniListItems from "@/ui/stadistics/components/MiniListItems";
+import Select from "@/ui/components/components/Select";
+import { useChartTypes } from "@/hooks/useChartTypes";
+import { useItems } from "@/hooks/useItems";
+import { HeroChart } from "@/ui/components/components/HeroChart";
+import DashboardStatsList from "@/ui/stadistics/components/DashboardStatsList";
+import EventStore from "@/store/stores/events.store";
+import { GenerateDataStats } from "@/store/utils/stadistics.dashBoardStats.utils";
+import { WeeklyUsers } from "@/ui/stadistics/components/WeeklyUsers";
 
-export default function Home() {
+export default function StadisticsPage(){
+
+   const DailyLogs=EventStore.getState().getDailyLogs()
+  const DataStats=GenerateDataStats(DailyLogs)
+  const {HabitsToDo,tasksToDo,moveItem}=useItems()
+  const{
+      typeChart,
+      timeBar,
+      typeBar,
+      changeTypeChart,
+      changeTimeBar,
+      changeTypeBar
+  }=useChartTypes()
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-[80vh] pt-15   max-[550px]:pt-6">
+
+      <div className="flex flex-col   items-start gap-2 pl-0 w-full">
+        <div className="flex justify-between w-full pr-9">
+          <h1 className="text-4xl  text-start ">Progress </h1>
+          <WeeklyUsers/>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <Select options={[{value:'Task',label:'Tasks'},{value:'Habit',label:'Habits'},{value:'General',label:'General'},{value:'Today',label:'Today'},{value:'Week',label:'This Week'}]} value={typeChart} onClick={(val)=>changeTypeChart(val)} className={typeChart==='Week' ? 'w-34' : 'w-27`'}  />
+      </div>
+    
+      <div className="h-auto mt-6 flex w-full flex-wrap justify-around items-start gap-10 mb-auto max-[1300px]:h-[40vh] max-[550px]:h-auto max-[550px]:gap-5 max-[1300px]:min-h-125">
+        <div className="max-[900px]:w-full w-auto">
+          <HeroChart type={typeChart}/>
+          <p className="text-center ">Mood Impact : {getMoodProductivyCorrelation(DailyLogs)}%</p>
         </div>
-      </main>
+        <div className="w-auto h-auto pt-6 flex flex-col gap-8 max-[550px]:gap-3 max-[550px]:flex-col  max-[900px]:flex-row max-[900px]:pt-2 ">
+          <MiniListItems items={HabitsToDo} moveItem={(val)=>moveItem(val)} label="Habits" />
+          <MiniListItems items={tasksToDo} moveItem={(val)=>moveItem(val)} label="Tasks" />
+        </div>
+      </div>
+    
+      <h1 className="text-4xl mt-30  text-start ml-9 max-[550px]:mt-20 max-[1000px]:mt-40">Trend</h1>
+      
+      <div className="flex  gap-5 ml-9 mt-5">
+        <Select options={[{value:'Days',label:'Last 7 days'},{value:'Weeks',label:'Last 4 weeks'}]} onClick={(value)=>changeTimeBar(value) } value={timeBar} className="w-43"/>
+        <Select options={[{value:'productivity',label:'Productivity'},{value:'points',label:'Points'}]} onClick={(value)=>changeTypeBar(value) } className="w-37" value={typeBar}/>
+      </div>
+
+      <BarChart key={JSON.stringify(DailyLogs)} logs={DailyLogs} time={timeBar} prop={typeBar}/>    
+  
+    {DataStats.map((data,index)=><DashboardStatsList {...data} key={index}/>)}
+
     </div>
-  );
+  )
 }

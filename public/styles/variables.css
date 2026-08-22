@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+@tailwind utilities;
+
+@theme {
+  /* Definición de colores */
+   /* Definición de colores */
+  --color-primary: #2D8787;
+  --color-secondary: #008C86;
+  --color-tertiary: #D45996;
+  --font-primary:'Inter' , sans-serif;
+  /* Definición de fuentes */
+  --font-primary: 'Manrope', sans-serif;
+  --font-secondary: 'Newsreader', serif;
+}
+body{
+  background-color: #050412;
+  color: white;
+  user-select: none;
+}
+
+
+.font-extralight{
+  font-weight: 300;
+}

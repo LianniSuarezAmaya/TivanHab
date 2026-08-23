@@ -1,9 +1,8 @@
-
-import Circle  from './CircleForm';
-
 import type { Repeat } from './FrequencySelector';
+
 import { FrequencyOptions } from './FrequencyOptions';
 import { WeekDaysSelectorForm } from './WeekDaysSelectorForm';
+import Circle  from './CircleForm';
 
 interface FrequencySelectorFormProps {
   value:Repeat;                    // valor actual de 'repeat' ('once' | 'daily' | 'weekly' ...)

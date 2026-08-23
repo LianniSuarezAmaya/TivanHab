@@ -4,21 +4,19 @@ import dayjs from 'dayjs'
 
 import type { Habit,Task } from '../../ui/items/types/items.types.ts'
 import type{ DailyLog } from '../../ui/stadistics/types/stadistics.types.ts'
-import type { EventStoreProps } from '../types/events.types.ts.ts'
+import type { EventStoreProps,Event } from '../types/events.types.ts.ts'
 import type { Nothe } from '../../ui/nothes/types/nothes.types.ts'
 
-
-import type { PrunedInformation } from '../types/prune.types.ts'
-import { buildDailyLogs } from '../utils/eventsStore.utils'
-import { reconstructEntitiesUntil,emptyPrunedInformation,mergeDailyLogsIntoPrunedInformation ,updateHabitCompletions,createSnapshotEvents,
+import { emptyPrunedInformation ,updateHabitCompletions,createSnapshotEvents,
   PRUNE_CHECK_INTERVAL,HISTORY_STORAGE_KEY,MAX_LOCAL_STORAGE_BYTES,getLocalStorageSizeBytes
 } from '../utils/eventStore.pruneEvents.utils'
-import type { Event } from '../types/events.types.ts.ts'
+
 const EventStore=create<EventStoreProps>()(
   persist(
     (set,get)=>({
       events:[],
       prunedInformation:emptyPrunedInformation(),
+     
       addEvent(e) {
         const newEvent={...e,id:Date.now()}
         set({events:[...get().events,newEvent]})
@@ -27,359 +25,256 @@ const EventStore=create<EventStoreProps>()(
       clearEvents() {
         set({events:[]})
       },
- pruneEvents() {
-  if (typeof window === 'undefined') {
-    return
-  }
 
-  const now = Date.now()
-  const currentInfo = get().prunedInformation
+      pruneEvents() {
+       
+        if (typeof window === 'undefined') {
+          return
+        }
 
-  /*
-   * No comprobamos el storage más de una vez
-   * por intervalo.
-   */
-  if (
-    currentInfo.lastPruneCheckAt > 0 &&
-    now - currentInfo.lastPruneCheckAt <
-      PRUNE_CHECK_INTERVAL
-  ) {
-    return
-  }
+        const now = Date.now()
+        const info = get().prunedInformation
 
-  /*
-   * Marcamos que hemos hecho la comprobación.
-   */
-  set({
-    prunedInformation: {
-      ...currentInfo,
-      lastPruneCheckAt: now,
-    },
-  })
+        if (
+          info.lastPruneCheckAt > 0 &&
+          now - info.lastPruneCheckAt < PRUNE_CHECK_INTERVAL
+        ) {
+          return
+        }
 
-  const storageSize = getLocalStorageSizeBytes()
+        set({
+          prunedInformation: {
+            ...info,
+            lastPruneCheckAt: now,
+          },
+        })
 
-  /*
-   * No hay nada que hacer.
-   */
-  if (storageSize <= MAX_LOCAL_STORAGE_BYTES) {
-    return
-  }
+        const events = [...get().events]
 
-  const originalEvents = [...get().events]
+        if (events.length === 0) {
+          return
+        }
 
-  if (originalEvents.length === 0) {
-    return
-  }
+        const getCandidateSize = (candidateEvents: Event[]) => {
+          const currentJSON =
+            localStorage.getItem(HISTORY_STORAGE_KEY) ?? ''
 
-  /*
-   * Siempre trabajamos sobre una copia.
-   */
-  const sortedEvents = [...originalEvents].sort(
-    (a, b) => a.date - b.date
-  )
+          const candidateJSON = JSON.stringify({
+            state: {
+              ...get(),
+              events: candidateEvents,
+            },
+            version: 1,
+          })
 
-  /*
-   * Eventos que podemos considerar "desechables".
-   *
-   * Estos eventos normalmente solo representan una
-   * transición histórica y no necesitamos conservarlos
-   * indefinidamente.
-   */
-  const disposableEvents = sortedEvents.filter(
-    event =>
-      event.action === 'completed' ||
-      event.action === 'uncompleted' ||
-      event.action === 'deleted'
-  )
+          const currentHistoryBytes =
+            (
+              HISTORY_STORAGE_KEY.length +
+              currentJSON.length
+            ) * 2
 
-  /*
-   * El resto de eventos tienen más valor histórico.
-   */
-  const normalEvents = sortedEvents.filter(
-    event =>
-      event.action !== 'completed' &&
-      event.action !== 'uncompleted' &&
-      event.action !== 'deleted'
-  )
+          const candidateHistoryBytes =
+            (
+              HISTORY_STORAGE_KEY.length +
+              candidateJSON.length
+            ) * 2
 
-  /*
-   * Intentamos eliminar primero los eventos desechables.
-   *
-   * En cada paso calculamos cuánto ocuparía el estado
-   * resultante. Así no eliminamos más de lo necesario.
-   */
-  let remainingEvents = [...sortedEvents]
+          const currentStorageSize =getLocalStorageSizeBytes()
 
-  const getCandidateSize = (events: Event[]) => {
-    const historyJSON =
-      localStorage.getItem(HISTORY_STORAGE_KEY) ?? ''
+        return (
+          currentStorageSize -
+          currentHistoryBytes +
+          candidateHistoryBytes
+        )
+        }
 
-    let parsedHistory: unknown
+        let remaining = [...events]
 
-    try {
-      parsedHistory = JSON.parse(historyJSON)
-    } catch {
-      parsedHistory = undefined
-    }
+      
+        const disposable = [...remaining]
+          .filter(
+            event =>
+              event.action === 'completed' ||
+              event.action === 'uncompleted' ||
+              event.action === 'deleted'
+          )
+          .sort((a, b) => a.date - b.date)
 
-    /*
-     * El persist de Zustand guarda:
-     *
-     * {
-     *   state: {
-     *     events: [...]
-     *   },
-     *   version: ...
-     * }
-     *
-     * Construimos una representación equivalente
-     * solamente para calcular el tamaño.
-     */
-    const currentPersisted =
-      parsedHistory &&
-      typeof parsedHistory === 'object'
-        ? parsedHistory as Record<string, unknown>
-        : {}
+        for (const event of disposable) {
+          const candidate = remaining.filter(
+            e => e.id !== event.id
+          )
 
-    const currentState =
-      currentPersisted.state &&
-      typeof currentPersisted.state === 'object'
-        ? currentPersisted.state as Record<string, unknown>
-        : {}
+          if (
+            getCandidateSize(candidate) <=
+            MAX_LOCAL_STORAGE_BYTES
+          ) {
+            remaining = candidate
+            break
+          }
 
-    const candidatePersisted = {
-      ...currentPersisted,
-      state: {
-        ...currentState,
-        events,
+          remaining = candidate
+
+          if (
+            getCandidateSize(remaining) <=
+            MAX_LOCAL_STORAGE_BYTES
+          ) {
+            break
+          }
+        }
+
+  
+        if (
+          getCandidateSize(remaining) >
+          MAX_LOCAL_STORAGE_BYTES
+        ) {
+          remaining = [...remaining].sort(
+            (a, b) => a.date - b.date
+          )
+
+          while (
+            remaining.length > 0 &&
+            getCandidateSize(remaining) >
+              MAX_LOCAL_STORAGE_BYTES
+          ) {
+            remaining.shift()
+          }
+        }
+
+  
+        if (remaining.length < events.length) {
+          set({
+            events: remaining,
+          })
+        }
       },
-    }
 
-    const candidateJSON =
-      JSON.stringify(candidatePersisted)
+      getLastCompleted(habit) {
 
-    const currentHistoryBytes =
-      (
-        HISTORY_STORAGE_KEY.length +
-        historyJSON.length
-      ) * 2
+        const pruned =
+          get().prunedInformation
 
-    const candidateHistoryBytes =
-      (
-        HISTORY_STORAGE_KEY.length +
-        candidateJSON.length
-      ) * 2
+        const historical =
+          pruned.habitCompletions[habit.key] ?? []
 
-    return (
-      storageSize -
-      currentHistoryBytes +
-      candidateHistoryBytes
-    )
-  }
+        const CompleteEvents = [
+          ...get().events,
+        ]
+          .filter(
+            e =>
+              e.type === 'Habit' &&
+              e.eventKey === habit.key &&
+              e.date > pruned.lastPrunedAt
+          )
+          .sort(
+            (a, b) => a.date - b.date
+          )
 
-  /*
-   * --------------------------------------------------
-   * 1. Eliminar eventos desechables antiguos
-   * --------------------------------------------------
-   */
-  for (const event of disposableEvents) {
-    if (
-      getCandidateSize(remainingEvents) <=
-      MAX_LOCAL_STORAGE_BYTES
-    ) {
-      break
-    }
+        const lastCompleted = [
+          ...historical,
+        ]
 
-    remainingEvents = remainingEvents.filter(
-      current => current !== event
-    )
-  }
+        for (const event of CompleteEvents) {
 
-  /*
-   * --------------------------------------------------
-   * 2. Si todavía no cabe, eliminar eventos antiguos
-   * --------------------------------------------------
-   *
-   * Aquí ya no distinguimos el tipo de evento.
-   */
-  if (
-    getCandidateSize(remainingEvents) >
-    MAX_LOCAL_STORAGE_BYTES
-  ) {
-    for (const event of sortedEvents) {
-      if (
-        getCandidateSize(remainingEvents) <=
-        MAX_LOCAL_STORAGE_BYTES
-      ) {
-        break
-      }
+          if (event.action === 'completed') {
+            lastCompleted.push(event.date)
+          }
 
-      /*
-       * Puede que ya haya sido eliminado durante
-       * la primera fase.
-       */
-      if (!remainingEvents.includes(event)) {
-        continue
-      }
+          if (event.action === 'uncompleted') {
+            lastCompleted.pop()
+          }
+        }
 
-      remainingEvents = remainingEvents.filter(
-        current => current !== event
-      )
-    }
-  }
-
-  /*
-   * Si ni eliminando todos los eventos conseguimos
-   * bajar del límite, conservamos lo que quede.
-   *
-   * En un portfolio esto es preferible a intentar
-   * reconstruir snapshots, estadísticas, etc.
-   */
-  const finalEvents = [...remainingEvents].sort(
-    (a, b) => a.date - b.date
-  )
-
-  /*
-   * Si no hemos eliminado nada, no hacemos un set
-   * innecesario de events.
-   */
-  if (finalEvents.length === originalEvents.length) {
-    return
-  }
-
-  set({
-    events: finalEvents,
-  })
-},
-
-     getLastCompleted(habit) {
-
-  const pruned =
-    get().prunedInformation
-
-  const historical =
-    pruned.habitCompletions[habit.key] ?? []
-
-  const CompleteEvents = [
-    ...get().events,
-  ]
-    .filter(
-      e =>
-        e.type === 'Habit' &&
-        e.eventKey === habit.key &&
-        e.date > pruned.lastPrunedAt
-    )
-    .sort(
-      (a, b) => a.date - b.date
-    )
-
-  const lastCompleted = [
-    ...historical,
-  ]
-
-  for (const event of CompleteEvents) {
-
-    if (event.action === 'completed') {
-      lastCompleted.push(event.date)
-    }
-
-    if (event.action === 'uncompleted') {
-      lastCompleted.pop()
-    }
-  }
-
-  return lastCompleted
-}
-,
+        return lastCompleted
+      },
+      
       getHabits() {
-        
-         const habits= get().reconstructHabits()
-          return habits  
-        },
+        const habits= get().reconstructHabits()
+        return habits  
+      },
+
       getTasks() {
-          const tasks = get().reconstructTasks()
-          return tasks
-      },
-       getNothes() {
-          const tasks = get().reconstructNothes()
-          return tasks
+        const tasks = get().reconstructTasks()
+        return tasks
       },
 
-    reconstructHabits() {
+      getNothes() {
+        const tasks = get().reconstructNothes()
+        return tasks
+      },
 
-    const events = [...get().events].sort((a, b) => a.date - b.date)
-    
-    const habitsMap = new Map<number, Habit>()
-    
-    for (const event of events) {
-        if (event.type !== 'Habit') continue
+      reconstructHabits() {
+
+        const events = [...get().events].sort((a, b) => a.date - b.date)
         
-        switch (event.action) {
+        const habitsMap = new Map<number, Habit>()
+        
+        for (const event of events) {
+          if (event.type !== 'Habit') continue
+            
+          switch (event.action) {
             case 'added':
-                if (event.newData?.Habit) {
-    
-                    habitsMap.set(event.eventKey, {
-                        ...(event.newData.Habit),
-                    })
 
-                  }
-                break
+              if (event.newData?.Habit) {
+                habitsMap.set(event.eventKey, {
+                    ...(event.newData.Habit),
+                })
+              }
+            break
                 
             case 'edited':
-                if (event.newData?.Habit && habitsMap.has(event.eventKey)) {
-                    const current = habitsMap.get(event.eventKey)
-                    if(!current) {
-                      continue
-                    } 
+              if (event.newData?.Habit && habitsMap.has(event.eventKey)) {
+                const current = habitsMap.get(event.eventKey)
+                if(!current) {
+                  continue
+                } 
 
-                    habitsMap.set(event.eventKey, {
-                        ...current,
-                        ...(event.newData.Habit),
-                        key: current.key,
-                        completed: current.completed
-                    })
-                }
-                break
-                
+                habitsMap.set(event.eventKey, {
+                    ...current,
+                    ...(event.newData.Habit),
+                    key: current.key,
+                    completed: current.completed
+                })
+              }
+            break
+                  
             case 'deleted':
-           
             habitsMap.delete(event.eventKey)
-               continue 
+            continue 
                 
             case 'completed':
-                const habitCompleted = habitsMap.get(event.eventKey)
-                if (habitCompleted) {
-                    const isToday = dayjs(event.date).isSame(dayjs(), 'day')
-                    if (isToday) {
-                        habitsMap.set(event.eventKey, {
-                            ...habitCompleted,
-                            completed: true
-                        })
-                    }
+              const habitCompleted = habitsMap.get(event.eventKey)
+              if (habitCompleted) {
+                const isToday = dayjs(event.date).isSame(dayjs(), 'day')
+                if (isToday) {
+                  habitsMap.set(event.eventKey, {
+                    ...habitCompleted,
+                    completed: true
+                  })
                 }
-                break
+              }
+            break
                 
             case 'uncompleted':
-                const habitUncompleted = habitsMap.get(event.eventKey)
-                if (habitUncompleted) {
-                    const isToday = dayjs(event.date).isSame(dayjs(), 'day')
-                    if (isToday) {
-                        habitsMap.set(event.eventKey, {
-                            ...habitUncompleted,
-                            completed: false
-                        })
-                    }
-                }
-                break
+              const habitUncompleted = habitsMap.get(event.eventKey)
+              if (habitUncompleted) {
+                const isToday = dayjs(event.date).isSame(dayjs(), 'day')
+                if (isToday) {
+                  habitsMap.set(event.eventKey, {
+                      ...habitUncompleted,
+                      completed: false
+                  })
+                  }
+              }
+            break
+          }
         }
-    }
 
-    return Array.from(habitsMap.values())
-}
+        return Array.from(habitsMap.values())
+      }
       ,
 
-       reconstructTasks() {
+      reconstructTasks() {
         const events = [...get().events].sort((a, b) => a.date - b.date)
         const TasksMap = new Map<number, Task>()
         
@@ -406,38 +301,38 @@ const EventStore=create<EventStoreProps>()(
                   completed: current.completed
                 })
               }
-              break
+            break
               
             case 'deleted':
                TasksMap.delete(event.eventKey)
-              break
+            break
             
             case 'completed':
               const taskCompleted = TasksMap.get(event.eventKey)
               if (taskCompleted) {
-                  TasksMap.set(event.eventKey, {
-                    ...taskCompleted,
-                    completed: true
-                  })
-                
+                TasksMap.set(event.eventKey, {
+                  ...taskCompleted,
+                  completed: true
+                })
               }
-              break
+            break
               
             case 'uncompleted':
               const taskUncompleted = TasksMap.get(event.eventKey)
               if (taskUncompleted) {
-                  TasksMap.set(event.eventKey, {
-                    ...taskUncompleted,
-                    completed: false
-                  })
+                TasksMap.set(event.eventKey, {
+                  ...taskUncompleted,
+                  completed: false
+                })
               }
               break
           }
         }
         return Array.from(TasksMap.values())
       },
+
       reconstructNothes() {
-          const events = [...get().events].sort((a, b) => a.date - b.date)
+        const events = [...get().events].sort((a, b) => a.date - b.date)
         const NothesMap = new Map<number, Nothe>()
         
         for (const event of events) {
@@ -450,7 +345,7 @@ const EventStore=create<EventStoreProps>()(
                   ...(event.newData.Nothe),
                 })
               }
-              break
+            break
                
             case 'edited':
               if (event.newData?.Nothe && NothesMap.has(event.eventKey)) {
@@ -463,19 +358,17 @@ const EventStore=create<EventStoreProps>()(
                   key: current.key,
                 })
               }
-              break
+            break
               
             case 'deleted':
-
             NothesMap.delete(event.eventKey)
-              break
-
+            break
+          }
         }
-      }
-              return Array.from(NothesMap.values())
-    },
+        return Array.from(NothesMap.values())
+      },
      
-       getTotalTime() {
+      getTotalTime() {
         const tasks=get().getTasks()
        
         let time:number=0
@@ -484,7 +377,6 @@ const EventStore=create<EventStoreProps>()(
             time+=tasks[i].duration
            }
          }
-
          return time
       },
       
@@ -539,10 +431,8 @@ const EventStore=create<EventStoreProps>()(
                 tasksCompleted:log.tasksCompleted+1,
               }
 
-  
             }
             LogsMap.set(eventDate,newLog)
-
           }
 
           if(event.action==='uncompleted'){
@@ -573,23 +463,21 @@ const EventStore=create<EventStoreProps>()(
             LogsMap.set(eventDate,newLog)
 
           }
+        }
 
-   
-      }
         return Array.from(LogsMap.values()).sort((log,log2)=>log.date-log2.date)
-    },
-   getDailyMood() {
-     return get().getDailyLogs().at(-1)?.mood||3
-   },
-    }) , {name:'history-storage', 
-           partialize: (state) => ({
+      },
+
+      getDailyMood() {
+        return get().getDailyLogs().at(-1)?.mood||3
+      },
+
+    }),
+    {name:'history-storage', 
+      partialize: (state) => ({
         events: state.events,
       }),
-   
-    
-    },
-  
-        
+    }    
 
   )
 )

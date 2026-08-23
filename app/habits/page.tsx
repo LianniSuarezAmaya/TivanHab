@@ -3,13 +3,14 @@ import { useEffect} from "react"
 import { useRouter } from "next/navigation"
 
 import { useItems } from "@/hooks/useItems"
-import { ItemList } from "@/ui/items/components/ItemList"
 
 import HeroItems from "@/ui/items/components/HeroItems"
+import { ItemList } from "@/ui/items/components/ItemList"
+
 export default function HabitsPage(){
- const router=useRouter()
-  
- const {
+ 
+  const router=useRouter()
+  const {
     Habits,
     HabitsDone,
     HabitsToDo,
@@ -17,9 +18,9 @@ export default function HabitsPage(){
     error,
     order,
     setOrder,
-    selectedHabit}=useItems()
+    selectedHabit
+  }=useItems()
 
-    
   const ItemListData=[
     {label:'To Do',items:HabitsToDo},
     {label:'Done',items:HabitsDone},

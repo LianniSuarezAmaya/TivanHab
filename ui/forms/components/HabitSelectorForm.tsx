@@ -1,7 +1,7 @@
+import type { HabitSelectorProps } from "../../items/types/items.types"
 
 import Circle from "./CircleForm"
 import { HabitOptions } from "./HabitOptions"
-import type { HabitSelectorProps } from "../../items/types/items.types"
 
 export default function  HabitSelectorForm({value,setValue}:HabitSelectorProps){
   

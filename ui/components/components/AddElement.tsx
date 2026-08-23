@@ -1,4 +1,3 @@
-
 import { PlusIcon } from "@heroicons/react/24/solid"
 
 export default function AddElement({isHovered,onClick,label}:{isHovered:boolean,onClick:()=>void,label:string}){

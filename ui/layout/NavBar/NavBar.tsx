@@ -1,28 +1,30 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { UserIcon,ChartBarIcon ,PencilIcon,PencilSquareIcon,ArrowPathIcon,Bars3BottomLeftIcon,Bars4Icon} from '@heroicons/react/24/solid'
 
-import { UserIcon,ChartBarIcon ,PencilSquareIcon,ArrowPathIcon,Bars3BottomLeftIcon,Bars4Icon} from '@heroicons/react/24/solid'
 import { userService } from '@/app/api/client/user.client'
 import { useUser } from '@/hooks/useUser'
-import {PencilIcon} from '@heroicons/react/24/solid'
+import EventStore from '@/store/stores/events.store'
+
+import UserNameForm from './UserNameForm'
 import { messageMood } from './messageNavbar'
 import InputForm from '../../forms/components/InputForm'
-import EventStore from '@/store/stores/events.store'
-import { useForm } from 'react-hook-form'
-import UserNameForm from './UserNameForm'
+
 interface NavBarProps{
 open:boolean,
 setOpen:(value:boolean)=>void
 }
 
 export function NavBar({open,setOpen}:NavBarProps){
-const {register,watch,formState:{errors}}=useForm()
+  const {register,watch,formState:{errors}}=useForm()
 
-const{user,updateName}=useUser()
-const[form,setForm]=useState<boolean>(false)
-const {getDailyMood}=EventStore.getState()
+  const{user,updateName}=useUser()
+  const[form,setForm]=useState<boolean>(false)
+  const {getDailyMood}=EventStore.getState()
   const router=useRouter()
   const NavBarRef=useRef<HTMLDivElement>(null)
+  const id=userService.getLocalUser()?.id
 
   const handleEvent=(e:React.MouseEvent<HTMLDivElement>)=>{
     if(e.target==e.currentTarget){
@@ -30,7 +32,6 @@ const {getDailyMood}=EventStore.getState()
     }
   }
 
-const id=userService.getLocalUser()?.id
 
   useEffect(()=>{
    
@@ -81,8 +82,7 @@ const id=userService.getLocalUser()?.id
             else{setForm(true)}
           }}/>
           </div>
-         {form&&<UserNameForm setForm={()=>{setForm}}/>
-} 
+          {form&&<UserNameForm setForm={()=>{setForm}}/>} 
           <p className='text-start pl-3.5 mt-5 text-lg font-light max-[600px]:text-sm  max-[1100px]:mt-3'>YOU FEEL TODAY</p>
           <p className='text- start font-normal text-xl pl-3.5 max-[600px]:text-[0.9rem]  max-[1100px]:text-lg '>{messageMood(getDailyMood())}</p>
         </div>        
@@ -111,8 +111,6 @@ const id=userService.getLocalUser()?.id
             <p>Nothes</p>
           </div>
         </div>
-
-
 
       </nav>
     </div>

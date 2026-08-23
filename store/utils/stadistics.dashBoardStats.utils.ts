@@ -1,24 +1,25 @@
+
+import dayjs from "dayjs"
+import  duration  from "dayjs/plugin/duration"
+
+import type { DashboardStatsProps,Stats,DailyLog} from "../../ui/stadistics/types/stadistics.types"
 import { getTotalDays,getVeryProdutiveDays,getLowProdutiveDays,getActiveDays,getInactiveDays,
   getProductivity,getSumLog,getAveragePropLogs,
  } from "./stadistics.utils"
-import dayjs from "dayjs"
-import type { DashboardStatsProps,Stats,DailyLog} from "../../ui/stadistics/types/stadistics.types"
-import  duration  from "dayjs/plugin/duration"
+
 
 export const formatTime = (ms:number) => {
-    dayjs.extend(duration)
+  dayjs.extend(duration)
 
-    const dur = dayjs.duration(ms)
-    const days=Math.floor(dur.asDays())
-    const hours = Math.floor(dur.asHours())
-    const minutes = dur.minutes()
-    const seconds = dur.seconds()
-    
-    return `${days>0 ? `${days}d` :''}  ${hours-(days*24)}h ${minutes}m  ${days===0 ? `${seconds}s` :''} `
-  } 
+  const dur = dayjs.duration(ms)
+  const days=Math.floor(dur.asDays())
+  const hours = Math.floor(dur.asHours())
+  const minutes = dur.minutes()
+  const seconds = dur.seconds()
+  
+  return `${days>0 ? `${days}d` :''}  ${hours-(days*24)}h ${minutes}m  ${days===0 ? `${seconds}s` :''} `
+} 
 
-
-  ///testear 
   
 export function GenerateDataStats(DailyLogs:DailyLog[]){
 
@@ -35,7 +36,6 @@ export function GenerateDataStats(DailyLogs:DailyLog[]){
     { value: inactive, label: 'Missed Days' },
   ];
 
-
   const productivity=getProductivity(DailyLogs)
   const statsDataGlobal: Stats[] = [
   { value:Number.isInteger(productivity) ? productivity : productivity.toFixed(2), label: 'Score Producivity' },
@@ -43,7 +43,6 @@ export function GenerateDataStats(DailyLogs:DailyLog[]){
   { value: formatTime(getSumLog('timeWorked',DailyLogs)), label: 'Time Worked' },
   { value: getSumLog('tasksCompleted',DailyLogs), label: 'Tasks Completed' },
   ];
-
 
   const averageHabitsCompleted=getAveragePropLogs('habitsCompleted',DailyLogs)
   const averageTasksCompleted=getAveragePropLogs('tasksCompleted',DailyLogs)

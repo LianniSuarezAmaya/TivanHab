@@ -3,21 +3,21 @@ import dayjs from "dayjs"
 import { useItems } from "@/hooks/useItems"
 import { calculateNextDue } from "@/store/utils/items.utils"
 import EventStore from "@/store/stores/events.store"
+
 interface HeroChartProps{
-  
-      type: "Habit" | "Task" | "General" | "Today" | "Week"
-  }
+    type: "Habit" | "Task" | "General" | "Today" | "Week"
+}
 
   
-  export function Paramers({type}:HeroChartProps){
-        const {HabitsDone,HabitsLater,HabitsToDo,loading,tasksDone,tasksToDo}=useItems()
+export function Params({type}:HeroChartProps){
+  const {HabitsDone,HabitsLater,HabitsToDo,loading,tasksDone,tasksToDo}=useItems()
 
-     const startWeek=dayjs().day(1).startOf('day').valueOf()
-      const endWeek=dayjs().day(7).endOf('day').valueOf()
-      const startDay=dayjs().startOf('day').valueOf()
-      
-    const{getLastCompleted}=EventStore.getState()
-  
+  const startWeek=dayjs().day(1).startOf('day').valueOf()
+  const endWeek=dayjs().day(7).endOf('day').valueOf()
+  const startDay=dayjs().startOf('day').valueOf()
+    
+  const{getLastCompleted}=EventStore.getState()
+
   let doneCount:number=0
   let todoCount:number=0
   let isLoading:boolean=false
@@ -47,4 +47,4 @@ interface HeroChartProps{
     todoCount=HabitsToDo.concat(HabitsLater).filter(h=>dayjs(calculateNextDue(h,startWeek)).isBefore(endWeek)&&dayjs(calculateNextDue(h,startWeek)).isAfter(startWeek)).length+tasksToDo.length
   }
   return {isLoading,doneCount,todoCount}
-  }
+}

@@ -1,17 +1,16 @@
 'use client'
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
+import { useState } from "react";
 import { QueryProvider } from "./components/queryClientProvider";
 
-import './globals.css'
-import { useState } from "react";
+import { MoodFormGuard } from "./components/MoodFormGuard";
 import { NavBar } from "@/ui/layout/NavBar/NavBar";
 import { Footer } from "@/ui/layout/Footer/Footer";
-import { MoodFormGuard } from "./components/MoodFormGuard";
-import '@/public/styles/variables.css'
+
+import './globals.css'
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-   const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
 
   return (
     <html lang="es">
@@ -28,7 +27,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </QueryProvider>
       </body>
-    </html>)
+    </html>
+  )
 }
 
 

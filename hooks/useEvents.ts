@@ -1,8 +1,8 @@
 'use client'
 
 import { useState ,useCallback,useEffect} from "react"
-import EventStore from "@/store/stores/events.store.js"
-import type { Event } from "@/store/types/events.types.ts.js"
+import type { Event } from "@/store/types/events.types.ts"
+import EventStore from "@/store/stores/events.store"
 
 export function useEvents(){
   
@@ -18,20 +18,17 @@ export function useEvents(){
   useEffect(() => {
 
     loadEvents()
-    
 
     const unsubscribe = EventStore.subscribe(() => {
       loadEvents()
     })
     
-
     const handleDateChange = () => {
       loadEvents()
     }
     
     window.addEventListener('dateChanged', handleDateChange)
     
-
     return () => {
       unsubscribe()
       window.removeEventListener('dateChanged', handleDateChange)
@@ -41,6 +38,7 @@ export function useEvents(){
   const [events, setEvents] = useState<Event[]>([])
  
   const dailyLogs=EventStore((e)=>e.getDailyLogs)
+ 
   return{
     events,
     dailyLogs,

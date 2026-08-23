@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
-import InputForm from "../../forms/components/InputForm";
-import { Button } from "../../components/components/Button";
+
 import { useCreateComment } from "@/hooks/useComments";
 import { userService } from "@/app/api/client/user.client";
+
+import InputForm from "../../forms/components/InputForm";
+import { Button } from "../../components/components/Button";
+
 interface CommentFormType {
   comment: string
 }
@@ -18,14 +21,14 @@ export default function CommentForm({
   onSuccess 
 }: CommentFormProps) {
   const id=userService.getLocalUser()?.id
+  
   if(!id){
     return
-    
   }
 
   const { 
     register, 
-    formState: { errors }, 
+    formState:{ errors }, 
     reset, 
     handleSubmit 
   } = useForm<CommentFormType>()
@@ -44,7 +47,6 @@ export default function CommentForm({
       reset()
       onAbort()
       if (onSuccess) onSuccess()
-      
     } catch (error) {
       console.error('Error:', error)
     }
@@ -67,13 +69,13 @@ export default function CommentForm({
           }
         })}
       />
-      
+        
       {errors.comment && (
         <p style={{ color: 'red', fontSize: '0.8rem', marginTop: '0.25rem' }}>
           {errors.comment.message}
         </p>
       )}
-      
+        
       <div className="w-full flex justify-end gap-3 pr-[4%]">
         <Button 
           variant='primary' 

@@ -1,14 +1,11 @@
-// app/api/comments/route.ts
 import { NextResponse } from 'next/server'
-import { commentService } from '@/services/comment.service'
+import { commentDbService } from '@/services/comment.service'
+
 export async function GET() {
   try {
-    const comments = await commentService.getAll()
+    const comments = await commentDbService.getAll()
     return NextResponse.json(comments)
-  } catch (error) {
-
-
-    // Devuelve el error específico para debug
+  }catch(error){
     return NextResponse.json(
       {
         error: 'Error al obtener comentarios',
@@ -19,7 +16,6 @@ export async function GET() {
   }
 }
 
-// POST /api/comments
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -30,8 +26,8 @@ export async function POST(request: Request) {
         { status: 400 }
       )
     }
-
-    const comment = await commentService.create({
+    
+    const comment = await commentDbService.create({
       content: body.content,
       userId: body.userId
     })

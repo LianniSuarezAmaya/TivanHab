@@ -1,11 +1,11 @@
 'use client'
 
 import  { useState , useEffect , useRef } from "react";
+import { AgCharts } from "ag-charts-react";
 
 import type { HeroChartProps } from "../types/heroChart.types";
 
-import { AgCharts } from "ag-charts-react";
-import { Paramers } from "../hooks/heroChart.utils";
+import { Params } from "../hooks/heroChart.utils";
 
 import {
   LegendModule,
@@ -17,13 +17,12 @@ ModuleRegistry.registerModules([DonutSeriesModule, LegendModule]);
 
 export const HeroChart = ({type}:HeroChartProps) => {
   
-  const {isLoading,doneCount,todoCount}=Paramers({type})
+  const {isLoading,doneCount,todoCount}=Params({type})
 
   const [screen, setScreen] = useState({
     width: 0,
     height: 0,
   });
-
 
   const isMobile = screen.width < 900;
   const isiPad = (screen.height>screen.width+50)&&(screen.width>100);
@@ -38,19 +37,18 @@ export const HeroChart = ({type}:HeroChartProps) => {
     { asset: "To Do", amount: todoCount},
   ]
 
-     useEffect(() => {
-        const handleResize = () => {
-          setScreen({
-            width: window.innerWidth,
-            height: window.innerHeight,
-          });
-        };
-      handleResize()
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-      }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setScreen({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+  handleResize()
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
       
-
   const [options, setOptions] = useState<any>({
     data: data,
     background: {
@@ -101,8 +99,6 @@ export const HeroChart = ({type}:HeroChartProps) => {
       },
     ],
   });
-  
-  const a=8
   
   const prevDoneCount = useRef(doneCount);
   const prevTodoCount = useRef(todoCount);

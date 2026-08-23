@@ -1,18 +1,14 @@
-
-import dayjs from 'dayjs'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
-import EventStore from './events.store'
+import EventStore from '../store/stores/events.store'
 
 import {
   MAX_LOCAL_STORAGE_BYTES,
   PRUNE_CHECK_INTERVAL,
   emptyPrunedInformation,
-} from '../utils/eventStore.pruneEvents.utils'
+} from '../store/utils/eventStore.pruneEvents.utils'
 
-import type { Event } from '../types/events.types.ts'
 import { Habit } from '@/ui/items/types/items.types'
-
 
 describe('EventStore derived functions', () => {
   beforeEach(() => {

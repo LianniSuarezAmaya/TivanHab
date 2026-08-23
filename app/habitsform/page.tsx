@@ -1,16 +1,19 @@
 'use client'
 import { useForm } from 'react-hook-form';
-import type { HabitFormType } from '@/ui/items/types/items.types';
-import { HabitForm } from '@/ui/forms/components/HabitForm';
-import { createTimeData } from '@/ui/forms/utils/form.utils';
-import { useItems } from '@/hooks/useItems';
 import { useRouter } from 'next/navigation';
 
-export default function HabitFormPage(){
-  const {reset}=useForm()
-   const{addItem,editItem,selectedHabit,setHabit}=useItems()
+import type { HabitFormType } from '@/ui/items/types/items.types';
+import { useItems } from '@/hooks/useItems';
+import { HabitForm } from '@/ui/forms/components/HabitForm';
+import { createTimeData } from '@/ui/forms/utils/form.utils';
 
-   const router=useRouter()
+export default function HabitFormPage(){
+  
+    const router=useRouter()
+
+  const {reset}=useForm()
+  const{addItem,editItem,selectedHabit,setHabit}=useItems()
+
 
   const onSubmit=(data:HabitFormType )=>{
 
@@ -26,15 +29,14 @@ export default function HabitFormPage(){
     }
 
     if(selectedHabit) editItem(newHabit)
-    else {addItem(newHabit)}
+    else addItem(newHabit)
 
     reset()
     setHabit(null)
     router.push('/habits')
   }
 
-  return (
-    <HabitForm onAbort={()=>router.push('/habits')} onSubmit={onSubmit} />
-  ) 
+  return <HabitForm onAbort={()=>router.push('/habits')} onSubmit={onSubmit} />
+   
 }
 

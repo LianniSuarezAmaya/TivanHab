@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react';
+
 export function useDateChange() {
   
   const [currentDate, setCurrentDate] = useState(() => {
@@ -48,5 +49,6 @@ export function useDateChange() {
     };
   }, [checkDateChange]);
 
-  return { currentDate, checkDateChange };
+  return { currentDate, checkDateChange }
+  
 }

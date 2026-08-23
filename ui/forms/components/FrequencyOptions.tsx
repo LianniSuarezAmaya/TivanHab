@@ -1,12 +1,11 @@
-
-import { SelectablePillForm } from "./SelectablePillForm";
 import type { Repeat,FrequencySelectorProps } from "../../items/types/items.types";
+import { SelectablePillForm } from "./SelectablePillForm";
+
 const options: { value: Repeat; label: string }[] = [
   { value: 'daily', label: 'Daily' },
   { value: 'weekly', label: 'Weekly' },
   { value: 'monthly', label: 'Monthly' },
 ]
-
 
 export function FrequencyOptions({ value, onChange }: FrequencySelectorProps) {
   return (

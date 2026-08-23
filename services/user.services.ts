@@ -1,4 +1,3 @@
-// app/lib/services/user.service.ts
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -38,7 +37,6 @@ export const userDbService = {
     })
   },
 
-  // Actualizar nombre
   updateUserName: async (userId: number, name: string): Promise<DBUser> => {
 
     return prisma.user.update({
@@ -53,19 +51,3 @@ export const userDbService = {
     })
   }
 }
-
-{/* getUsersConnectedThisWeek: async (): Promise<number> => {
-    const now = new Date()
-    const startOfWeek = new Date(now)
-    startOfWeek.setDate(now.getDate() - now.getDay())
-    startOfWeek.setHours(0, 0, 0, 0)
-
-    return prisma.user.count({
-      where: {
-        lastTimeConnected: {
-          gte: startOfWeek
-        }
-      }
-    })
-  },
-*/}

@@ -1,8 +1,8 @@
-// components/MoodFormGuard.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+
 import MoodFormPage from './MoodFormPage';
 import SpinnerLoading from '@/ui/components/components/SpinnerLoader';
 

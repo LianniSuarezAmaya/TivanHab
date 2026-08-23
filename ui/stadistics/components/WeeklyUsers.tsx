@@ -1,6 +1,5 @@
 import { useUser } from "@/hooks/useUser";
 
-
 export function WeeklyUsers() {
   const {data,isError,isLoading,error} =  useUser().useWeeklyUsers;
   if (isLoading) {
@@ -13,7 +12,6 @@ export function WeeklyUsers() {
 
   return (
     <div className="flex items-center">
-      
       <span className=" text-sm  text-white/80" title="User connected this week">
         Users  : {data?.activeThisWeek || 0}
       </span>

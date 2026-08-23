@@ -1,11 +1,9 @@
-
-// app/services/comment.service.ts
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export const commentService = {
-  // 📌 GET - Todos los comentarios con su usuario
+export const commentDbService = {
+  
   getAll: async () => {
     try {
       const comments = await prisma.comment.findMany({
@@ -23,7 +21,6 @@ export const commentService = {
       })
       return comments
     } catch (error) {
-      console.error('Error en getAll:', error)
       throw error
     }
   },
@@ -40,14 +37,12 @@ export const commentService = {
             select: {
               id: true,
               name: true
-              // ✅ Sin email
             }
           }
         }
       })
       return comment
     } catch (error) {
-      console.error('Error en create:', error)
       throw error
     }
   }

@@ -1,4 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
+
+import { ItemStore } from '../store/stores/items.store'
+import EventStore from '../store/stores/events.store'
+
 import {
   FindHabitByKey,
   FindTaskByKey,
@@ -7,8 +11,6 @@ import {
   AddEvent,
   IsSameKey,
 } from '../store/utils/itemsStore.utils'
-import { ItemStore } from '../store/stores/items.store'
-import EventStore from '../store/stores/events.store'
 
 
 vi.mock('../store/utils/itemsStore.utils', () => ({

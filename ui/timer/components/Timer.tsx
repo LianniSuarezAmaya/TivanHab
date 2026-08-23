@@ -1,6 +1,7 @@
+import { CheckIcon,PlayIcon,PauseIcon ,StopIcon} from "@heroicons/react/24/solid"
+
 import { useTimer } from "@/hooks/useTimer"
 
-import { CheckIcon,PlayIcon,PauseIcon ,StopIcon} from "@heroicons/react/24/solid"
 export function Timer(){
  
   const {
@@ -28,17 +29,17 @@ export function Timer(){
         </svg>
       </div>
 
-    <div className="flex flex-col">
-      <h1 className="text-4xl max-[500px]:text-xl max-[720px]:text-2xl ">{time} </h1>
+      <div className="flex flex-col">
+        <h1 className="text-4xl max-[500px]:text-xl max-[720px]:text-2xl ">{time} </h1>
 
- <div className="flex justify-center">
-  {isRunning&&(<PauseIcon className="size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6" onClick={pauseTimer}/>)}
-      {!isRunning&&(<PlayIcon className="size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6" onClick={startTimer}/>)}
-      <StopIcon className='size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6' onClick={resetTimer}/>
-      <CheckIcon  className='size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6' onClick={completeTimer}/>
-
- </div>
+        <div className="flex justify-center">
+          {isRunning&&(<PauseIcon className="size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6" onClick={pauseTimer}/>)}
+          {!isRunning&&(<PlayIcon className="size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6" onClick={startTimer}/>)}
+          <StopIcon className='size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6' onClick={resetTimer}/>
+          <CheckIcon  className='size-7 text-white/30 max-[500px]:size-5 max-[720px]:size-6' onClick={completeTimer}/>
         </div>
+        
+      </div>
 
       <p className='error'>{error}</p>
     

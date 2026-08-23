@@ -1,4 +1,4 @@
 
 export interface HeroChartProps{
-type:'Habit'|'Task'|'General'|'Today'|'Week'
+  type:'Habit'|'Task'|'General'|'Today'|'Week'
 }

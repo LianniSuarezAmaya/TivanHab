@@ -1,8 +1,7 @@
-
+import type { UseFormRegister } from 'react-hook-form';
 import  Circle  from './CircleForm';
 import { Label } from '../../components/components/Label';
 import InputForm from './InputForm';
-import type { UseFormRegister } from 'react-hook-form';
 
 interface TimeRangeSelectorFormProps {
   register: UseFormRegister<any>;

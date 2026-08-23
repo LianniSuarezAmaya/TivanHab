@@ -1,6 +1,6 @@
-// app/hooks/useComments.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { commentsService } from '@/app/api/client/comments.client'
+
 export interface CommentFrontend {
   id: number
   username: string

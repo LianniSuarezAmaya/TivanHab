@@ -7,6 +7,12 @@ import {
   vi,
 } from 'vitest'
 
+
+import type {
+  Habit,
+  Task,
+} from '../../ui/items/types/items.types'
+
 import {
   calculateNextDue,
   recalculateNextDue,
@@ -17,11 +23,6 @@ import {
 } from './items.utils'
 
 import EventStore from '../../store/stores/events.store'
-
-import type {
-  Habit,
-  Task,
-} from '../../ui/items/types/items.types'
 
 
 describe('items utils', () => {

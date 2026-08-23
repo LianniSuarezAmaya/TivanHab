@@ -1,6 +1,6 @@
+export type Repeat = 'daily' | 'weekly' | 'monthly'
 
 import { SelectablePillForm } from "./SelectablePillForm";
-export type Repeat = 'daily' | 'weekly' | 'monthly'
 
 const options: { value: Repeat; label: string }[] = [
   { value: 'daily', label: 'Daily' },

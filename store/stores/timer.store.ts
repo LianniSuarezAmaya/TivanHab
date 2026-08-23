@@ -22,7 +22,8 @@ type TimerStoreProps={
   getActiveTask:()=>Task|null
   timeIsValid:()=>boolean
 }
-  export const TimerStore=create<TimerStoreProps>()(
+
+export const TimerStore=create<TimerStoreProps>()(
 
   persist(
     (set,get)=>({
@@ -95,7 +96,7 @@ type TimerStoreProps={
         const setTaskIsDoing=ItemStore.getState().setTaskIsDoing
         setTaskIsDoing(null)
 
-      get().resetInterval()
+        get().resetInterval()
       },
 
       completeTimer() {
@@ -133,17 +134,17 @@ type TimerStoreProps={
       },
 
       getActiveTask() {
-
-  const taskIsDoing=ItemStore.getState().taskIsDoing
+        const taskIsDoing=ItemStore.getState().taskIsDoing
         if (!taskIsDoing||taskIsDoing?.completed) return null
         return taskIsDoing 
       },
 
       timeIsValid(){
-    const { time, accumulatedTime } = get()
-    return time > 0 || accumulatedTime > 0
+        const { time, accumulatedTime } = get()
+        return time > 0 || accumulatedTime > 0
       },
-        restoreTimer: function() {
+      
+      restoreTimer() {
         const state = get();
         if (state.isRunning && state.accumulatedTime > 0) {
 
@@ -160,13 +161,11 @@ type TimerStoreProps={
             start: currentStart
           });
         } else if (state.isRunning && state.accumulatedTime === 0) {
-          // Si está corriendo pero no hay tiempo acumulado, resetear
           set({ isRunning: false });
         }
       },
-
-
-    }), {
+    }),
+      {
         name: 'timer-storage',
 
         partialize: (state) => ({
@@ -178,18 +177,16 @@ type TimerStoreProps={
           start: state.start,
           error: state.error,
         }),
-           onRehydrateStorage: () => (state) => {
-        if (state?.isRunning) {
-           setTimeout(() => {
-            const store = TimerStore.getState();
-            store.restoreTimer();
-          }, 0);
+        onRehydrateStorage: () => (state) => {
+          if (state?.isRunning) {
+            setTimeout(() => {
+              const store = TimerStore.getState();
+              store.restoreTimer();
+            }, 0);
+          }
         }
       }
-      }
-      
   )
-
-  )
+)
 
 

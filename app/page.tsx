@@ -1,28 +1,32 @@
 'use client'
+
+import { useChartTypes } from "@/hooks/useChartTypes";
+import { useItems } from "@/hooks/useItems";
+import { useEvents } from "@/hooks/useEvents";
+
 import { getMoodProductivyCorrelation } from "@/store/utils/stadistics.utils";
+
+import { HeroChart } from "@/ui/components/components/HeroChart";
 import BarChart from "@/ui/stadistics/components/Chart";
 import MiniListItems from "@/ui/stadistics/components/MiniListItems";
 import Select from "@/ui/components/components/Select";
-import { useChartTypes } from "@/hooks/useChartTypes";
-import { useItems } from "@/hooks/useItems";
-import { HeroChart } from "@/ui/components/components/HeroChart";
+import {WeeklyUsers } from "@/ui/stadistics/components/WeeklyUsers";
 import DashboardStatsList from "@/ui/stadistics/components/DashboardStatsList";
-import EventStore from "@/store/stores/events.store";
+
 import { GenerateDataStats } from "@/store/utils/stadistics.dashBoardStats.utils";
-import { WeeklyUsers } from "@/ui/stadistics/components/WeeklyUsers";
 
 export default function StadisticsPage(){
 
-   const DailyLogs=EventStore.getState().getDailyLogs()
+  const DailyLogs=useEvents().dailyLogs()
   const DataStats=GenerateDataStats(DailyLogs)
   const {HabitsToDo,tasksToDo,moveItem}=useItems()
   const{
-      typeChart,
-      timeBar,
-      typeBar,
-      changeTypeChart,
-      changeTimeBar,
-      changeTypeBar
+    typeChart,
+    timeBar,
+    typeBar,
+    changeTypeChart,
+    changeTimeBar,
+    changeTypeBar
   }=useChartTypes()
 
   return (
@@ -56,7 +60,7 @@ export default function StadisticsPage(){
 
       <BarChart key={JSON.stringify(DailyLogs)} logs={DailyLogs} time={timeBar} prop={typeBar}/>    
   
-    {DataStats.map((data,index)=><DashboardStatsList {...data} key={index}/>)}
+      {DataStats.map((data,index)=><DashboardStatsList {...data} key={index}/>)}
 
     </div>
   )

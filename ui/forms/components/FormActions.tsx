@@ -45,8 +45,7 @@ export default function FormActions({
         disabled={ isSubmitting ||false}
         type="submit"
         className={`h-min text-xl max-[700px]:text-lg py-2 px-9 rounded-[40px] ${submitClassName}`}
-    >
-
+      >
         {submitText}
       </Button>
     </div>

@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
+import type { Task } from '../ui/items/types/items.types'
+
 import { TimerStore } from '../store/stores/timer.store'
 import { ItemStore } from '../store/stores/items.store'
 
-import type { Task } from '../ui/items/types/items.types'
 
 describe('TimerStore', () => {
 

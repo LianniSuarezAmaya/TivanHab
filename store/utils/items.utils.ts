@@ -23,11 +23,9 @@ export function calculateNextDue(
 
   switch (habit.repeat) {
 
-    // 🟢 DAILY
     case 'daily':
       return baseDate + DAY
 
-    // 🔵 WEEKLY
     case 'weekly': {
       if (habit.daysOfWeek?.length) {
 
@@ -47,7 +45,6 @@ export function calculateNextDue(
       return baseDate + 7 * DAY
     }
 
-    // 🟣 MONTHLY
     case 'monthly': {
       const targetDay = new Date(habit.date).getDate()
 
@@ -79,9 +76,7 @@ export function calculateNextDue(
 
  
 
- export function recalculateNextDue(
-  habit: Habit,
-): number {
+export function recalculateNextDue(habit: Habit): number {
 
   const lastCompleted = getLastCompleted(habit).at(-1)
 
@@ -99,37 +94,37 @@ export function isItemLate(
   item: Habit |Task,
   now: number = Date.now()
 ): boolean {
-if(isHabit(item)){
-  const nextDue = recalculateNextDue(item)
-  const today = toStartOfDay(now)
-  return today > nextDue
-}else{
-   const now = new Date()
-  const todayStart = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  ).getTime()
+  if(isHabit(item)){
+    const nextDue = recalculateNextDue(item)
+    const today = toStartOfDay(now)
+    return today > nextDue
+  }else{
+    const now = new Date()
+    const todayStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    ).getTime()
 
-  const taskDate = new Date(item.date).getTime()
+    const taskDate = new Date(item.date).getTime()
 
-  return taskDate < todayStart
-}
-
-}
-
-
-  export function isSameDay(timestampA: number, timestampB: number): boolean {
-    const a = new Date(timestampA)
-    const b = new Date(timestampB)
-    return a.getUTCFullYear() === b.getUTCFullYear() &&
-          a.getUTCMonth() === b.getUTCMonth() &&
-          a.getUTCDate() === b.getUTCDate()
+    return taskDate < todayStart
   }
 
+}
 
 
-  const toStartOfDay = (ts: number) => {
+export function isSameDay(timestampA: number, timestampB: number): boolean {
+  const a = new Date(timestampA)
+  const b = new Date(timestampB)
+  return a.getUTCFullYear() === b.getUTCFullYear() &&
+    a.getUTCMonth() === b.getUTCMonth() &&
+    a.getUTCDate() === b.getUTCDate()
+}
+
+
+
+const toStartOfDay = (ts: number) => {
   const d = new Date(ts)
   return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()
 }

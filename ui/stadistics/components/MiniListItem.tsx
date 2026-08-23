@@ -1,16 +1,12 @@
-
-import type { Habit,Task } from "../../items/types/items.types"
 import { CheckIcon } from "@heroicons/react/24/solid"
-
+import type { Habit,Task } from "../../items/types/items.types"
 
 interface MiniListItemsProps{
   item:Task|Habit,
   moveItem:(key:number)=>void,
 }
 
-
 export default function MiniListItem({item,moveItem}:MiniListItemsProps){
-
 
   return(
     <div className="w-full pl-3 border border-primary/10 pt-1.5 mb-1 gap-1 rounded-3xl flex items-center  max-[550px]:py-0.5 max-[550px]:mb-1">

@@ -5,8 +5,8 @@ import CommentCard from "./components/CommentCard";
 import type{ CommentInterface, CommentsProps } from "./types/comments.types";
 import CommentForm from "./components/CommentForm";
 import { CommentFrontend,useComments } from "@/hooks/useComments";
-import SpinnerLoading from "../components/components/SpinnerLoader";
-export default function Comments({Comments}:CommentsProps){
+
+export default function Comments(){
   
   const [more,setMore]=useState<boolean>(false)
     const [form,setForm]=useState<boolean>(false)

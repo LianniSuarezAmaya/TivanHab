@@ -2,9 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import type { Habit,Task } from "../../items/types/items.types";
+import { generateMiniListEventsMessage } from "../utils/stadistics.components.utils";
+
 import { Button } from "../../components/components/Button"
 import MiniListItem from "./MiniListItem";
-import { generateMiniListEventsMessage } from "../utils/stadistics.components.utils";
 
 interface MiniListEventsProps{
   items:Task[]|Habit[];
@@ -14,7 +15,7 @@ interface MiniListEventsProps{
 
 export default function MiniListItems({items,moveItem,label}:MiniListEventsProps){
    
-const message=generateMiniListEventsMessage(label)
+  const message=generateMiniListEventsMessage(label)
   const router=useRouter()
   let  navigateTo='/'
   if(label==='Tasks')

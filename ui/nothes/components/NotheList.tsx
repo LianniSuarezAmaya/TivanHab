@@ -1,4 +1,3 @@
-
 import type { NotheListProps } from "../types/nothes.types";
 import { NotheCard } from "./NotheCard";
 

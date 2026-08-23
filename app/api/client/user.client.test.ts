@@ -1,5 +1,3 @@
-// user.services.test.ts
-
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { userService } from './user.client'
 

@@ -6,10 +6,11 @@ import type { Nothe,NotheFormType } from '../../ui/nothes/types/nothes.types.ts'
 
 import { AddEvent } from '../utils/itemsStore.utils'
 import EventStore from './events.store'
+
 type NothesStore={
 
   selectedNothe:Nothe|null,
-   error:string|null,
+  error:string|null,
   addNothe:(nothe:NotheFormType)=>void,
   editNothe:(Nothe:NotheFormType)=>void,
   deleteNothe:(key:number)=>void,
@@ -17,9 +18,8 @@ type NothesStore={
 }
 
 function FindNotheByKey(key:number){
-const Nothes=EventStore.getState().getNothes()
-
-return [...Nothes].some(n=>n.key===key)
+  const Nothes=EventStore.getState().getNothes()
+  return [...Nothes].some(n=>n.key===key)
 }
 
 export const NothesStore=create<NothesStore>()(
@@ -36,27 +36,25 @@ export const NothesStore=create<NothesStore>()(
         }
 
         const event: UnsavedEvent={
-        type:'Nothe',
-        action:'added', 
-        eventKey:newNothe.key,
-        date:Date.now(),
-        newData:{
-          Nothe:newNothe,
+          type:'Nothe',
+          action:'added', 
+          eventKey:newNothe.key,
+          date:Date.now(),
+          newData:{
+            Nothe:newNothe,
+          }
         }
-
-      }
-      AddEvent(event)
-
-},
+        AddEvent(event)
+      },
 
       editNothe(Nothe) {
       
         const key=get().selectedNothe?.key
 
         if(!key||(key&&!FindNotheByKey(key))) {
-        set({error:'An error ocurred . Please try again'})
-        return 
-      }
+          set({error:'An error ocurred . Please try again'})
+          return 
+        }
 
         const event: UnsavedEvent={
           eventKey:key,
@@ -73,26 +71,19 @@ export const NothesStore=create<NothesStore>()(
       deleteNothe(key) {
      
         if(!FindNotheByKey(key)){
-          set({error:'An error ocurred . Please try again'}
-            
-        )
-        alert('error')}
-        else{
-        const event: UnsavedEvent={
-          eventKey:key,
-          type:'Nothe',
-          action:'deleted', 
-          date:Date.now(),
-      
+          set({error:'An error ocurred . Please try again'})
+        }else{
+          const event: UnsavedEvent={
+            eventKey:key,
+            type:'Nothe',
+            action:'deleted', 
+            date:Date.now(),
         }
         AddEvent(event)}
       },
   
       setSelectedNothe(nothe) {
-
         set({selectedNothe:nothe})
-   
-
       },
 
     }) , {name:'nothes-storage',

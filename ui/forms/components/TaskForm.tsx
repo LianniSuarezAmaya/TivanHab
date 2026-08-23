@@ -1,11 +1,13 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import dayjs from 'dayjs'
+
+import type { TaskFormType } from '../../items/types/items.types';
+import { useItems } from '@/hooks/useItems';
 import { tasksSchema } from '../schemas/tasks.shema';
 import { getStartHour,getEndHour } from '../../items/utils/items.utils';
-import { useItems } from '@/hooks/useItems';
-import { useEffect } from 'react';
+
 
 import BodyFormContainer from './BodyFormContainer';
 import HeroForm from './HeroForm';
@@ -15,7 +17,6 @@ import TimeRangeSelector from './TimeRangeSelectorForm';
 import FormActions from './FormActions';
 import HabitSelectorForm from './HabitSelectorForm';
 
-import type { TaskFormType } from '../../items/types/items.types';
 
 export interface TaskFormProps{
 onAbort:()=>void,
@@ -24,7 +25,7 @@ onSubmit:(data:TaskFormType)=>void
 
 export function TaskForm({onAbort,onSubmit}:TaskFormProps){
    
-    const {register,handleSubmit,reset,setValue,watch, formState:{errors}}=useForm<TaskFormType>({
+  const {register,handleSubmit,reset,setValue,watch, formState:{errors}}=useForm<TaskFormType>({
     resolver:zodResolver(tasksSchema),
     defaultValues:{date:dayjs(Date.now()).format('YYYY-MM-DD'),name:'',description:''}
   })

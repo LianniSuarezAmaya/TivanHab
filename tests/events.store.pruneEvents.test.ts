@@ -1,15 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
-import EventStore from './events.store'
-
-import {
-  MAX_LOCAL_STORAGE_BYTES,
-  PRUNE_CHECK_INTERVAL,
-  emptyPrunedInformation,
-} from '../utils/eventStore.pruneEvents.utils'
-
-import type { Event } from '../types/events.types.ts'
-
+import type { Event } from '../store/types/events.types.ts.js'
+import EventStore from '../store/stores/events.store.js'
+import {MAX_LOCAL_STORAGE_BYTES,emptyPrunedInformation} from '../store/utils/eventStore.pruneEvents.utils.js'
 
 describe('eventStore.pruneEvents', () => {
 
@@ -54,12 +47,7 @@ describe('eventStore.pruneEvents', () => {
     duration: 60,  })
 
 
-  /*
-   * Hace que history-storage supere el límite.
-   *
-   * Como pruneEvents() calcula el tamaño real de
-   * localStorage, necesitamos meter basura adicional.
-   */
+
   const fillStorage = (
     size: number,
   ) => {

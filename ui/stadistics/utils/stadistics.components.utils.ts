@@ -46,21 +46,20 @@ export const generateDataBarChart=({logs,time,prop}:ChartProps)=>{
 
 export function generateMiniListEventsMessage(type:'Tasks'|'Habits'){
 
-     const{tasksDone,HabitsDone,tasksToDo,HabitsToDo}=useItems()
-     let message:string=''
- if(type==='Tasks'){
-  if(tasksDone.length===0&&tasksToDo.length===0){
-    message='There is not tasks to do'
-  }else if(tasksDone.length>0&&tasksToDo.length===0){
-    message="Alright, you've already completed all of today's tasks."
+  const{tasksDone,HabitsDone,tasksToDo,HabitsToDo}=useItems()
+  let message:string=''
+  if(type==='Tasks'){
+    if(tasksDone.length===0&&tasksToDo.length===0){
+      message='There is not tasks to do'
+    }else if(tasksDone.length>0&&tasksToDo.length===0){
+      message="Alright, you've already completed all of today's tasks."
+    }
+  }else{
+    if(HabitsDone.length===0&&HabitsToDo.length===0){
+      message='There is not habits to do'
+    }else if(HabitsDone.length>0&&HabitsToDo.length===0){
+      message="Alright, you've already completed all of today's habits."
+    }
   }
-
- }else{
-  if(HabitsDone.length===0&&HabitsToDo.length===0){
-    message='There is not habits to do'
-  }else if(HabitsDone.length>0&&HabitsToDo.length===0){
-    message="Alright, you've already completed all of today's habits."
-  }
- }
  return message
 }

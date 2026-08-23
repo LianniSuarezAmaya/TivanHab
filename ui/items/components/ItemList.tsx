@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 
 import type {  ItemListProps } from '../types/items.types'
@@ -9,7 +8,8 @@ import { ItemCard } from './ItemCard'
 export function ItemList({items,label}:ItemListProps){
 
   const [visible,setVisible]=useState<boolean>(true)
- if(items.length===0) return <></>
+  if(items.length===0) return <></>
+ 
   return(
     <div className='flex  flex-col'>
 
@@ -23,16 +23,13 @@ export function ItemList({items,label}:ItemListProps){
         </div>
     
       {visible&&( 
-    <div className="grid grid-cols-3 max-[850px]:grid-cols-2 gap-3 max-[550px]:grid-cols-1">
+        <div className="grid grid-cols-3 max-[850px]:grid-cols-2 gap-3 max-[550px]:grid-cols-1">
           {items.map((i)=>{
               return <ItemCard key={i.key}  item={i} />}
-          )
-}
-          
+          )}  
         </div>
       )}
-      
-    </div>
 
+    </div>
   )
 }

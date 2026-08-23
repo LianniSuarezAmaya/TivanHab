@@ -1,7 +1,6 @@
-import { SelectablePillForm } from "./SelectablePillForm";
-
-import { useItems } from "@/hooks/useItems";
 import type { HabitOptionsProps } from "../../items/types/items.types";
+import { useItems } from "@/hooks/useItems";
+import { SelectablePillForm } from "./SelectablePillForm";
 
 export function HabitOptions({ value, onChange }: HabitOptionsProps) {
   const {Habits}=useItems()

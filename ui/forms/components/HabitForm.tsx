@@ -1,6 +1,6 @@
 
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs'
 import { habitsSchema } from '../schemas/habits.shema';
@@ -30,10 +30,9 @@ export function HabitForm({onAbort,onSubmit}:HabitFormProps){
     defaultValues:{date:dayjs(Date.now()).format('YYYY-MM-DD'), repeat: 'daily',name:'',description:'', daysOfWeek: [] as number[]}
   })
      const{isSubmitting,selectedHabit,setHabit}=useItems()
-
+     const[loading,isLoading]=useState<boolean>(false)
 
     useEffect(()=>{
-
 
      if(selectedHabit!==null){
       
@@ -119,10 +118,15 @@ export function HabitForm({onAbort,onSubmit}:HabitFormProps){
               selectedElement={selectedHabit}
               isSubmitting={isSubmitting}
               onCancel={() => {
+                isLoading(true)
+                setTimeout(()=>{
+                  isLoading(false)
+                },3000)
                 setHabit(null);
+                onAbort()
                 reset();
-                onAbort();
               }}
+
               className="mt-2"
               cancelClassName="bg-primary/2"
               submitClassName="bg-primary"

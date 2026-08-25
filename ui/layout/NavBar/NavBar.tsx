@@ -9,7 +9,6 @@ import EventStore from '@/store/stores/events.store'
 
 import UserNameForm from './UserNameForm'
 import { messageMood } from './messageNavbar'
-import InputForm from '../../forms/components/InputForm'
 
 interface NavBarProps{
 open:boolean,
@@ -82,7 +81,7 @@ export function NavBar({open,setOpen}:NavBarProps){
             else{setForm(true)}
           }}/>
           </div>
-          {form&&<UserNameForm setForm={()=>{setForm}}/>} 
+          {form&&<UserNameForm onAbort={()=>{setForm(false)}}/>} 
           <p className='text-start pl-3.5 mt-5 text-lg font-light max-[600px]:text-sm  max-[1100px]:mt-3'>YOU FEEL TODAY</p>
           <p className='text- start font-normal text-xl pl-3.5 max-[600px]:text-[0.9rem]  max-[1100px]:text-lg '>{messageMood(getDailyMood())}</p>
         </div>        

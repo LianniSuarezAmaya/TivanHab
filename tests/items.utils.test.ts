@@ -11,7 +11,7 @@ import {
 import type {
   Habit,
   Task,
-} from '../../ui/items/types/items.types'
+} from '../ui/items/types/items.types'
 
 import {
   calculateNextDue,
@@ -20,9 +20,9 @@ import {
   isSameDay,
   isHabit,
   isTask,
-} from './items.utils'
+} from '../store/utils/items.utils'
 
-import EventStore from '../../store/stores/events.store'
+import EventStore from '../store/stores/events.store'
 
 
 describe('items utils', () => {

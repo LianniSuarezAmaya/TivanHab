@@ -1,10 +1,15 @@
 'use client'
 
 import { useState } from "react";
-
 import { ChevronDownIcon , ChevronUpIcon} from "@heroicons/react/24/solid";
+import { OptionType } from "../types/select.types";
+import { SelectHTMLAttributes } from "react";
 
-import type  { SelectProps} from "../types/select.types";
+interface SelectProps<T extends string> extends Omit<SelectHTMLAttributes<HTMLSelectElement>,'onClick'> {
+  options: OptionType[];
+  value:T;
+  onClick: (value:T) => void;
+}
 
 export default function Select<T extends string>({
   options,
@@ -18,11 +23,11 @@ export default function Select<T extends string>({
 
   const selectedLabel=[...options].find(o=>o.value===value)?.label
   return (
-    <div className={`relative inline-block  ${className ? className : 'w-auto'}  `}>
-
+    <div className={`relative  ${className || 'w-auto'}`}>
       <button
         onClick={() => setOpen(!open)}
-        className={`w-full flex justify-center items-center  px-3 py-0.5 
+
+        className={` w-full flex justify-center items-center  px-3 py-0.5 
         ${open ? 'rounded-t-3xl' : 'rounded-3xl'}
       bg-white/15   text-white hover:bg-white/30
       cursor-pointer transition-all text-md  duration-300 ease-in-out 
@@ -35,7 +40,7 @@ export default function Select<T extends string>({
       {/* Lista de opciones */}
       {open && (
         <ul
-          className={`absolute left-0 py-0 mt-0 w-full  shadow-md z-10 
+          className={`absolute left-0  py-0 mt-0 w-full  shadow-md z-10 
            rounded-b-xl  text-white bg-white/15 backdrop-blur-2xl
           `}
         >
@@ -44,7 +49,7 @@ export default function Select<T extends string>({
             <li
               key={opt.value}
               onClick={() => {onClick(opt.value as T),setOpen(false)}}
-              className='cursor-pointer px-3 hover:bg-white/15 rounded-xl text-center 
+              className='cursor-pointer px-3 hover:bg-white/15 rounded-xl text-center  w-full
                 text-white   py-1   hover:text-white '
             >
               {opt.label}

@@ -1,6 +1,9 @@
-import type { DashboardStatsItems } from "../types/stadistics.types";
+interface DashboardStatsItemProps{
+  value:string
+  label:string
+}
 
-export default function DashboardStatsItem({label,value}:DashboardStatsItems){
+export default function DashboardStatsItem({label,value}:DashboardStatsItemProps){
   
   return (
     <div className="border-x-primary/8   border-x grow first:border-l-0 last:border-r-0 flex flex-col justify-start py-4 gap-1  max-[550px]:pt-3 max-[550px]:pb-2 max-[550px]:gap-0

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { commentsService } from './comments.client'
+import { commentsService } from '../app/api/client/comments.client'
 
 
 describe('commentsService', () => {

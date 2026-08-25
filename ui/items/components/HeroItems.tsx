@@ -6,7 +6,14 @@ import { HeroChart } from "../../components/components/HeroChart"
 import { Button } from "../../components/components/Button"
 import Select from "../../components/components/Select"
 
-export default function HeroItems({message,label,order,setOrder,onClick}:{message: boolean,label:'habits'|'tasks', order:"newest" | "oldest",setOrder: (order: "newest" | "oldest") => void,onClick:()=>void}){
+interface HeroItemsProps{
+  message: boolean,
+  label:'habits'|'tasks',
+   order:"newest" | "oldest",
+   setOrder: (order: "newest" | "oldest") => void,
+   onClick:()=>void
+}
+export default function HeroItems({message,label,order,setOrder,onClick}:HeroItemsProps){
 
   const router=useRouter()
     const {isHovered,triggerHover}=useTemporaryHover()
@@ -19,7 +26,7 @@ export default function HeroItems({message,label,order,setOrder,onClick}:{messag
         <Button variant='primary' className="w-min text-md px-3 rounded-3xl py-1.5 " onClick={()=>router.push('/')}>
           Dashboard
         </Button>
-        <Select options={[{value:'newest',label:'Newest'},{value:'oldest',label:'Oldest'}]} value={order} onClick={(value)=>setOrder(value)}/>
+        <Select options={[{value:'newest',label:'Newest'},{value:'oldest',label:'Oldest'}]} value={order} onClick={(value)=>setOrder(value)} className="w-40 "/>
       </div>
 
       <div className="flex max-[550px]:flex-col  w-full items-center justify-start h-auto  max-[370px]:justify-center max-[370px]:mx-auto max-[370px]:w-auto  max-[530px]:mt-[-1vh]">

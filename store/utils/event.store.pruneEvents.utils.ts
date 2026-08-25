@@ -1,13 +1,12 @@
 import dayjs from 'dayjs'
 
-import type { Habit, Task } from '../../ui/items/types/items.types.ts'
-import type { DailyLog } from '../../ui/stadistics/types/stadistics.types.ts'
-import type { Nothe } from '../../ui/nothes/types/nothes.types.ts'
+import type { Habit, Task } from '../../ui/items/types/items.types.js'
+import type { Nothe } from '../../ui/nothes/types/nothes.types.js'
 
-import type { Event } from '../types/events.types.ts.ts'
+import type { Event } from '../types/events.types.ts.js'
 import type {
   PrunedEntitySnapshots,PrunedInformation
-} from '../types/prune.types.ts'
+} from '../types/prune.types.js'
 
 
 

@@ -4,12 +4,38 @@ import dayjs from 'dayjs'
 
 import type { Habit,Task } from '../../ui/items/types/items.types.ts'
 import type{ DailyLog } from '../../ui/stadistics/types/stadistics.types.ts'
-import type { EventStoreProps,Event } from '../types/events.types.ts.ts'
+import type { Event ,UnsavedEvent} from '../types/events.types.ts.ts'
+import type { Mood } from '@/ui/forms/types/forms.type'
 import type { Nothe } from '../../ui/nothes/types/nothes.types.ts'
+import type{ PrunedInformation } from '../types/prune.types'
 
 import { emptyPrunedInformation ,updateHabitCompletions,createSnapshotEvents,
   PRUNE_CHECK_INTERVAL,HISTORY_STORAGE_KEY,MAX_LOCAL_STORAGE_BYTES,getLocalStorageSizeBytes
-} from '../utils/eventStore.pruneEvents.utils'
+} from '../utils/event.store.pruneEvents.utils'
+import { isLocalStorageNearLimit } from '../utils/event.store.utils'
+
+type EventStoreProps={
+  events:Event[],
+  prunedInformation:
+  PrunedInformation,
+  pruneEvents:(forceCheck?: boolean) => void,
+  addEvent:(e:UnsavedEvent)=>void,
+  clearEvents:()=>void
+  getLastCompleted:(habit:Habit)=>number[],
+  getHabits:()=>Habit[],
+  getNothes:()=>Nothe[],
+  getTasks:()=>Task[],
+  getDailyLogs:(events?:Event[])=>DailyLog[],
+  getTotalTime:()=>number,
+  getDailyMood:()=>Mood,
+
+  reconstructHabits: () => Habit[],
+  reconstructTasks: () => Task[],
+    reconstructNothes: () => Nothe[],
+
+
+}
+
 
 const EventStore=create<EventStoreProps>()(
   persist(
@@ -26,12 +52,15 @@ const EventStore=create<EventStoreProps>()(
         set({events:[]})
       },
 
-      pruneEvents() {
+      pruneEvents(forceCheck) {
        
         if (typeof window === 'undefined') {
           return
         }
-
+        if (!isLocalStorageNearLimit(forceCheck)) {
+          return
+        }
+ 
         const now = Date.now()
         const info = get().prunedInformation
 
@@ -426,7 +455,7 @@ const EventStore=create<EventStoreProps>()(
               newLog={
                 ...log,
                 streak:(log.habitsCompleted>2||log.tasksCompleted>3) ? true : false,
-                pointsAcummulated:log.pointsAcummulated+event.duration/40000,
+                pointsAcummulated:log.pointsAcummulated+event.duration/50,
                 timeWorked:log.timeWorked+event.duration,   
                 tasksCompleted:log.tasksCompleted+1,
               }

@@ -1,12 +1,34 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-import type { ItemStoreProps } from "../../ui/items/types/items.types.ts"
 import type { UnsavedEvent } from "../types/events.types.ts.ts"
 
 import EventStore from "./events.store"
-import {FindHabitByKey,FindTaskByKey,AddEvent, FindItemByKey, IsSameKey, FindItemByName ,splitText} from "../utils/itemsStore.utils"
+import {FindHabitByKey,FindTaskByKey,AddEvent, FindItemByKey, IsSameKey, FindItemByName ,splitText} from "../utils/items.store.utils"
 import { isSameDay ,isHabit,isTask} from "../utils/items.utils"
+import type { Task,Habit,HabitUnfound,TaskUnfound } from "@/ui/items/types/items.types"
+
+type ItemStoreProps={
+
+  selectedHabit:Habit|null,
+  selectedTask:Task|null,
+  taskIsDoing:Task|null,
+  order:'newest'|'oldest',
+  error:string|null,
+  isSubmitting:boolean,
+  addItem:(event:HabitUnfound|TaskUnfound)=>void,
+  editItem:(event:HabitUnfound|TaskUnfound)=>void,
+  deleteItem:(key:number)=>void,
+  moveItem:(key:number)=>void,
+  
+  setOrder:(order:'newest'|'oldest')=>void
+  setHabit:(habit:Habit|null)=>void
+  setTask:(task:Task|null)=>void,
+  setTaskIsDoing:(task:Task|null)=>void,
+  setError:(e:string)=>void
+  setIsSubmitting:(value:boolean)=>void
+
+}
 
 export const ItemStore=create<ItemStoreProps>()(
   persist(

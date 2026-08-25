@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { userService } from './user.client'
+import { userService } from '../app/api/client/user.client'
 
 describe('userService', () => {
   beforeEach(() => {

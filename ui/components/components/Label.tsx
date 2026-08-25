@@ -1,4 +1,9 @@
-import type{ LabelProps } from "../../forms/types/forms.type"
+import type { LabelHTMLAttributes } from "react"
+
+type LabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
+  htmlFor: string
+  children: React.ReactNode
+}
 
 export function Label({ htmlFor, className = '', children, ...props }: LabelProps) {
   return (

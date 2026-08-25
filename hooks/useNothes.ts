@@ -1,9 +1,10 @@
 'use client'
 
 import { useState ,useCallback,useEffect} from "react"
-import { NothesStore } from "@/store/stores/nothes.store"
 import type { Nothe } from "@/ui/nothes/types/nothes.types"
+
 import EventStore from "@/store/stores/events.store"
+import { NothesStore } from "@/store/stores/nothes.store"
 
 export function useNothes(){
   

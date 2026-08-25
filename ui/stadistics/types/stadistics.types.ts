@@ -1,5 +1,5 @@
 import type { Mood } from "../../forms/types/forms.type"
-import type { TrendProps } from "@/store/utils/stadistics.utils"
+import type { TrendProps } from "@/ui/stadistics/utils/stadistics.utils"
 export type DailyLog={
   date:number,
   mood:Mood,
@@ -10,20 +10,17 @@ export type DailyLog={
   habitsCompleted:number,
 }
 
-export type Stats={
+export type StatsListItem={
 value:number|string,
 label:string
 }
 
 export type DashboardStatsPropsBase={
   type:'porcentaje'|'number'|'ratio'
-  stats:Stats[],
+  stats:StatsListItem[],
   label:string
 }
-export interface DashboardStatsItems{
-  value:string
-  label:string
-}
+
 
 
 export type DashboardStatsProps =
@@ -41,12 +38,7 @@ export type AbsoluteLogProps=
 
 
 
- export type dataChartType={
-  name: string,
-      Accumulated: number,
-      pv: 0,
-      amt: 0,
-  }
+
 
    export interface ChartProps{
   logs:DailyLog[],

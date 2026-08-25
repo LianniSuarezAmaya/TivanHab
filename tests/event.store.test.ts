@@ -6,7 +6,7 @@ import {
   MAX_LOCAL_STORAGE_BYTES,
   PRUNE_CHECK_INTERVAL,
   emptyPrunedInformation,
-} from '../store/utils/eventStore.pruneEvents.utils'
+} from '../store/utils/event.store.pruneEvents.utils'
 
 import { Habit } from '@/ui/items/types/items.types'
 

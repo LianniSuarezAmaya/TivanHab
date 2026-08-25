@@ -1,4 +1,5 @@
-
+'use client'
+import { useEffect, useState } from 'react';
 import type { Habit,Task } from '../../items/types/items.types';
 import type { Nothe } from '../../nothes/types/nothes.types';
 
@@ -10,7 +11,7 @@ interface FormActionsProps {
   onCancel: () => void;           // función para cancelar
   className?: string;            // clases adicionales para el contenedor
   cancelClassName?: string;      // clases adicionales para botón Cancelar
-  submitClassName?: string;      // clases adicionales para botón Submit
+  submitClassName?: string;
 }
 
 export default function FormActions({
@@ -20,13 +21,25 @@ export default function FormActions({
   className = '',
   cancelClassName = '',
   submitClassName = '',
+
 }: FormActionsProps) {
 
+  const [loading,setIsLoading]=useState<boolean>(false)
+  
+  useEffect(()=>{if(loading){
+    onCancel()
+    setTimeout(()=>{
+      setIsLoading(false)
+    },5000)
+  }},[loading])
+
   let submitText = 'Add';
+  if(!loading){
   if (selectedElement !== null && selectedElement !== undefined) {
     submitText = isSubmitting ? 'Editing' : 'Edit';
   } else {
     submitText = isSubmitting ? 'Adding' : 'Add';
+  }
   }
 
   return (
@@ -36,7 +49,7 @@ export default function FormActions({
         type="button"
         variant="secondary"
         className={`h-min px-9 py-2 rounded-[40px] text-xl max-[700px]:text-lg mb-7 bg-primary/2 ${cancelClassName}`}
-        onClick={onCancel}
+        onClick={()=>{setIsLoading(true)}}
       >
         Cancel
       </Button>

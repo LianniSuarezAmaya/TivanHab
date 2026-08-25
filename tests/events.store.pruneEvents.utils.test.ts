@@ -9,7 +9,7 @@ import {
   createSnapshotEvents,
   emptyPrunedInformation,
   getLocalStorageSizeBytes,
-} from '../store/utils/eventStore.pruneEvents.utils.js'
+} from '../store/utils/event.store.pruneEvents.utils.js'
 
 
 describe('eventStore.pruneEvents.utils', () => {

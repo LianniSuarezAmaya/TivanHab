@@ -2,18 +2,19 @@
 
 import  { useState , useEffect , useRef } from "react";
 import { AgCharts } from "ag-charts-react";
-
-import type { HeroChartProps } from "../types/heroChart.types";
-
-import { Params } from "../hooks/heroChart.utils";
-
 import {
   LegendModule,
   DonutSeriesModule,
   ModuleRegistry,
 } from "ag-charts-community";
+import { Params } from "../hooks/heroChart.utils";
+
 
 ModuleRegistry.registerModules([DonutSeriesModule, LegendModule]);
+
+interface HeroChartProps{
+  type:'Habit'|'Task'|'General'|'Today'|'Week'
+}
 
 export const HeroChart = ({type}:HeroChartProps) => {
   

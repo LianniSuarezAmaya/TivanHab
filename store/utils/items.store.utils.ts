@@ -1,5 +1,5 @@
-import type { UnsavedEvent } from "../types/events.types.ts.ts";
-import type { TaskUnfound,HabitUnfound } from "../../ui/items/types/items.types.ts";
+import type { UnsavedEvent } from "../types/events.types.ts";
+import type { TaskUnfound,HabitUnfound } from "../../ui/items/types/items.types";
 
 import EventStore from "../stores/events.store";
 

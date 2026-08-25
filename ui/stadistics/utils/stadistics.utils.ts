@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import type { DailyLog,AbsoluteLogProps } from "../../ui/stadistics/types/stadistics.types";
+import type { DailyLog,AbsoluteLogProps } from "../types/stadistics.types";
 
 
 export function getDataDays(prop: TrendProps, days: number, logs: DailyLog[]): { data: number; day: string }[] {

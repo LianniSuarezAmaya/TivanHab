@@ -1,6 +1,10 @@
+interface SelectablePillProps {
+  label: string
+  active?: boolean
+  onClick: () => void
+  className?: string
+}
 
-
-import type { SelectablePillProps } from "../../items/types/items.types"
 export function SelectablePillForm({
   label,
   active,

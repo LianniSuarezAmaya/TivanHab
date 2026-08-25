@@ -4,7 +4,7 @@ import { useChartTypes } from "@/hooks/useChartTypes";
 import { useItems } from "@/hooks/useItems";
 import { useEvents } from "@/hooks/useEvents";
 
-import { getMoodProductivyCorrelation } from "@/store/utils/stadistics.utils";
+import { getMoodProductivyCorrelation } from "@/ui/stadistics/utils/stadistics.utils";
 
 import { HeroChart } from "@/ui/components/components/HeroChart";
 import BarChart from "@/ui/stadistics/components/Chart";
@@ -13,7 +13,7 @@ import Select from "@/ui/components/components/Select";
 import {WeeklyUsers } from "@/ui/stadistics/components/WeeklyUsers";
 import DashboardStatsList from "@/ui/stadistics/components/DashboardStatsList";
 
-import { GenerateDataStats } from "@/store/utils/stadistics.dashBoardStats.utils";
+import { GenerateDataStats } from "@/ui/stadistics/utils/stadistics.dashBoardStats.utils";
 
 export default function StadisticsPage(){
 

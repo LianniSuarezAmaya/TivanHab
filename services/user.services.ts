@@ -17,10 +17,9 @@ export interface DBUser {
 
 export const userDbService = {
 
-  createUser: async (id:number,name: string): Promise<DBUser> => {
+  createUser: async (name: string): Promise<DBUser> => {
     return prisma.user.create({
       data: {
-        id:id,
         name: name || 'User',
         lastTimeConnected: new Date()
       }

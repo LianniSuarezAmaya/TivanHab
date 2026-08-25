@@ -1,8 +1,12 @@
 import { TrashIcon,PencilIcon } from "@heroicons/react/24/solid"
 import { useRouter } from "next/navigation"
 
-import type { NotheCardProps } from "../types/nothes.types"
+import type { Nothe } from "../types/nothes.types"
 import { NothesStore } from "@/store/stores/nothes.store"
+
+interface NotheCardProps{
+  nothe:Nothe
+}
 
 export function NotheCard({nothe}:NotheCardProps){
   const {deleteNothe,setSelectedNothe}=NothesStore.getState()

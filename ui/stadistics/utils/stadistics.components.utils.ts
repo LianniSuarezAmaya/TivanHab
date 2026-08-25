@@ -1,6 +1,13 @@
 import { useItems } from "@/hooks/useItems"
-import { getDataDays,getDataWeeks } from "@/store/utils/stadistics.utils"
-import type { DashboardStatsProps,dataChartType,ChartProps } from "../types/stadistics.types"
+import { getDataDays,getDataWeeks } from "@/ui/stadistics/utils/stadistics.utils"
+import type { DashboardStatsProps,ChartProps } from "../types/stadistics.types"
+
+type dataChartType={
+  name: string,
+      Accumulated: number,
+      pv: 0,
+      amt: 0,
+}
 
 export function generateAfterStatsItem(props:DashboardStatsProps){
   const {type}=props

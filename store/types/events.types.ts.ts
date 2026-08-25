@@ -97,29 +97,7 @@ export type Error={
 }
 
 
-export type EventStoreProps={
-  events:Event[],
-    prunedInformation:
-    PrunedInformation,
-      pruneEvents:
-    () => void,
-  addEvent:(e:UnsavedEvent)=>void,
-  clearEvents:()=>void
-  getLastCompleted:(habit:Habit)=>number[],
-  getHabits:()=>Habit[],
-  getNothes:()=>Nothe[],
-  getTasks:()=>Task[],
-  getDailyLogs:(events?:Event[])=>DailyLog[],
-  getTotalTime:()=>number,
-  getDailyMood:()=>Mood,
-
-  reconstructHabits: () => Habit[],
-  reconstructTasks: () => Task[],
-    reconstructNothes: () => Nothe[],
-
-
-}
-
+ 
 export type HabitError = {
     id: number
     code: 'DUPLICATE_NAME' | 'INVALID_KEY' | 'NOT_FOUND' | 'RECONSTRUCTION_FAILED'

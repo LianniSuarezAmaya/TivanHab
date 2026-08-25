@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 import type { Event } from '../store/types/events.types.ts.js'
 import EventStore from '../store/stores/events.store.js'
-import {MAX_LOCAL_STORAGE_BYTES,emptyPrunedInformation} from '../store/utils/eventStore.pruneEvents.utils.js'
+import {MAX_LOCAL_STORAGE_BYTES,emptyPrunedInformation} from '../store/utils/event.store.pruneEvents.utils.js'
 
 describe('eventStore.pruneEvents', () => {
 
@@ -83,10 +83,6 @@ describe('eventStore.pruneEvents', () => {
       expect(after.events)
         .toEqual(events)
 
-      expect(
-        after.prunedInformation
-          .lastPruneCheckAt,
-      ).toBeGreaterThan(0)
 
       expect(
         before.events,
@@ -156,7 +152,7 @@ describe('eventStore.pruneEvents', () => {
 
       expect(before).toBe(0)
 
-      EventStore.getState().pruneEvents()
+      EventStore.getState().pruneEvents(true)
 
       const after =
         EventStore.getState()

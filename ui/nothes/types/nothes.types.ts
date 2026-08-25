@@ -4,12 +4,6 @@ export type Nothe={
   content?:string
 }
 
-export interface NotheCardProps{
-  nothe:Nothe
-}
-export interface NotheListProps{
-  nothes:Nothe[]
-}
 
 export type NotheFormType={
   key?:number,

@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware'
 import type { UnsavedEvent } from '../types/events.types.ts.ts'
 import type { Nothe,NotheFormType } from '../../ui/nothes/types/nothes.types.ts'
 
-import { AddEvent } from '../utils/itemsStore.utils'
+import { AddEvent } from '../utils/items.store.utils'
 import EventStore from './events.store'
 
 type NothesStore={

@@ -1,4 +1,4 @@
-import type { Repeat } from './FrequencySelector';
+import type { Repeat } from '../types/forms.type';
 
 import { FrequencyOptions } from './FrequencyOptions';
 import { WeekDaysSelectorForm } from './WeekDaysSelectorForm';

@@ -84,7 +84,7 @@ export default function CommentForm({
           disabled={createComment.isPending}
         >
           {createComment.isPending ? (
-            <span>⏳ Enviando...</span>
+            <span>Sending...</span>
           ) : (
             'Send'
           )}

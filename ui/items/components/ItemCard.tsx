@@ -1,6 +1,6 @@
 import { TrashIcon,PencilIcon, PlayIcon , CheckIcon } from '@heroicons/react/24/solid'
 
-import type{ ItemCardProps } from '../types/items.types'
+import type{ Item } from '../types/items.types'
 
 import { useItems } from '@/hooks/useItems'
 import { useTimer } from '@/hooks/useTimer'
@@ -8,17 +8,21 @@ import { useTimer } from '@/hooks/useTimer'
 import { isHabit } from '@/store/utils/items.utils'
 import { isHabitDoneToday,getEndHour,getStartHour } from '../utils/items.utils'
 
+interface ItemCardProps{
+  item:Item,
+}
+
 export function ItemCard({item}:ItemCardProps){
 
   const {moveItem,deleteItem,setTask,setHabit}=useItems()
   const {startTask}=useTimer()
   
   return(
-    <div className="card border border-primary/30  bg-primary/5 rounded-[50px]  break-inside-avoid mx-auto text-white  py-8 px-10 w-[90%] h-min  max-[400px]:pl-3 max-[400px]:pr-4 max-[400px]:flex max-[400px]:flex-col max-[530px]:px-6 max-[530px]:py-6 max-[700px]:px-5  max-[900px]:px-8 max-[900px]:py-10    ">
+    <div className="card border border-primary/30  bg-primary/5 rounded-[50px]  break-inside-avoid  text-white  py-8 px-10 w-[90%] h-min  max-[400px]:pl-3 max-[400px]:pr-4 max-[400px]:flex max-[400px]:flex-col max-[530px]:px-6 max-[530px]:py-6 max-[700px]:px-5  max-[900px]:px-8 max-[900px]:py-10    ">
       
-      <div className="grid  w-full  grid-cols-[10px_minmax(0,1fr)]  max-[400px]:w-[90%] max-[400px]:ml-[7%]  max-[530px]:gap-x-0  max-[530px]:grid-cols-[20px_minmax(0,1fr)] max-[530px]: gap-x-2    gap-y-0  "> 
+      <div className="grid  items-start w-full  grid-cols-[10px_minmax(0,1fr)]  max-[400px]:w-[90%] max-[400px]:ml-[7%]  max-[530px]:gap-x-0  max-[530px]:grid-cols-[20px_minmax(0,1fr)] max-[530px]: gap-x-2    gap-y-0  "> 
         <div
-            className="w-4 h-4 border-2 border-white rounded flex items-center justify-center mt-4 max-[530px]:w-3  max-[530px]:h-3 max-[530px]:mt-[3] max-[530px]:align-middle"
+            className="w-4 h-4 border-2 mt-2 border-white rounded flex items-center justify-center  max-[530px]:w-3  max-[530px]:h-3 max-[530px]:border max-[530px]:mt-1.5 "
             onClick={ () => moveItem(item.key)}>
             {((item.completed)||(isHabit(item)&&isHabitDoneToday(item))) && <CheckIcon className="size-4 text-white" />}
         </div>

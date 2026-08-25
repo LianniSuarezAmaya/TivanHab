@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "../components/components/Button";
 import CommentCard from "./components/CommentCard";
-import type{ CommentInterface, CommentsProps } from "./types/comments.types";
 import CommentForm from "./components/CommentForm";
 import { CommentFrontend,useComments } from "@/hooks/useComments";
 

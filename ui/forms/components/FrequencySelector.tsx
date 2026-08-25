@@ -1,5 +1,4 @@
-export type Repeat = 'daily' | 'weekly' | 'monthly'
-
+import type { Repeat } from "../types/forms.type";
 import { SelectablePillForm } from "./SelectablePillForm";
 
 const options: { value: Repeat; label: string }[] = [
@@ -8,12 +7,12 @@ const options: { value: Repeat; label: string }[] = [
   { value: 'monthly', label: 'Monthly' },
 ]
 
-type Props = {
+type FrequencySelectorProps = {
   value: Repeat
   onChange: (value: Repeat) => void
 }
 
-export function FrequencySelector({ value, onChange }: Props) {
+export function FrequencySelector({ value, onChange }: FrequencySelectorProps) {
   return (
     <div className="flex ml-5 gap-3">
       {options.map((opt) => (

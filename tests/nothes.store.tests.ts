@@ -4,7 +4,7 @@ import type { Nothe, NotheFormType } from '../ui/nothes/types/nothes.types'
 
 import EventStore from '../store/stores/events.store'
 import { NothesStore } from '../store/stores/nothes.store'
-import { AddEvent } from '../store/utils/itemsStore.utils'
+import { AddEvent } from '../store/utils/items.store.utils'
 
 
 vi.mock('../store/utils/itemsStore.utils', () => ({

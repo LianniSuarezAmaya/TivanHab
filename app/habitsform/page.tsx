@@ -31,9 +31,13 @@ export default function HabitFormPage(){
     if(selectedHabit) editItem(newHabit)
     else addItem(newHabit)
 
+    router.push('/habits')
+    
+    setTimeout(()=>{
     reset()
     setHabit(null)
-    router.push('/habits')
+    },5000)
+    
   }
 
   return <HabitForm onAbort={()=>router.push('/habits')} onSubmit={onSubmit} />

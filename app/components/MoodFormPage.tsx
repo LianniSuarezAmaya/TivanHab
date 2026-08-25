@@ -8,7 +8,7 @@ import type { UnsavedEvent } from '@/store/types/events.types.ts';
 import type { Mood } from '@/ui/forms/types/forms.type';
 
 import { useUser } from '@/hooks/useUser';
-import { AddEvent } from '@/store/utils/itemsStore.utils';
+import { AddEvent } from '@/store/utils/items.store.utils';
 import { MoodForm } from '@/ui/forms/components/MoodForm';
 
 export default function MoodFormPage(){

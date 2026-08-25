@@ -1,6 +1,6 @@
 import React from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+type ButtonVariant = "primary" | "secondary" 
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -29,9 +29,7 @@ export const Button: React.FC<ButtonProps> = ({
       "bg-primary/60 text-white hover:bg-primary/90 active:scale-[0.98]",
     secondary:
       "bg-primary/5 text-white/80 hover:bg-gray-300/10 active:scale-[0.98]",
-    ghost:
-      "bg-transparent text-black hover:bg-gray-100 active:scale-[0.98]",
-  };
+   };
 
   const disabledStyles =
     "opacity-50 cursor-not-allowed hover:scale-100";

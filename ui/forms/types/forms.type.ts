@@ -1,15 +1,11 @@
-
-import type { KeyboardEvent,LabelHTMLAttributes } from "react"
 import type{ TaskFormType,HabitFormType } from "../../items/types/items.types"
 export interface FormProps{
   onAbort:()=>void
 
 }
+export type Repeat = 'daily' | 'weekly' | 'monthly'
 
-export type LabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
-  htmlFor: string
-  children: React.ReactNode
-}
+
 
 export interface InputFormProps{
   id:string,
@@ -17,7 +13,6 @@ export interface InputFormProps{
   placeHolder:string,
   className?:string,
 
-  onKeyDown?:(e:KeyboardEvent<HTMLInputElement>)=>void,
   registerName?:string ,
   value?:string,
 }

@@ -2,7 +2,7 @@
 import dayjs from "dayjs"
 import  duration  from "dayjs/plugin/duration"
 
-import type { DashboardStatsProps,Stats,DailyLog} from "../../ui/stadistics/types/stadistics.types"
+import type { DashboardStatsProps,StatsListItem,DailyLog} from "../types/stadistics.types"
 import { getTotalDays,getVeryProdutiveDays,getLowProdutiveDays,getActiveDays,getInactiveDays,
   getProductivity,getSumLog,getAveragePropLogs,
  } from "./stadistics.utils"
@@ -29,7 +29,7 @@ export function GenerateDataStats(DailyLogs:DailyLog[]){
   const active = getActiveDays(DailyLogs).length;
   const inactive = getInactiveDays(DailyLogs);
 
-  const statsDataRatio: Stats[] = [
+  const statsDataRatio: StatsListItem[] = [
     { value: veryProductive, label: 'High Output' },
     { value: lowProductivity, label: 'Focus Days' },
     { value: active, label: 'Engaged Days' },
@@ -37,7 +37,7 @@ export function GenerateDataStats(DailyLogs:DailyLog[]){
   ];
 
   const productivity=getProductivity(DailyLogs)
-  const statsDataGlobal: Stats[] = [
+  const statsDataGlobal: StatsListItem[] = [
   { value:Number.isInteger(productivity) ? productivity : productivity.toFixed(2), label: 'Score Producivity' },
   { value: getSumLog('habitsCompleted',DailyLogs), label: 'Habits Completed' },
   { value: formatTime(getSumLog('timeWorked',DailyLogs)), label: 'Time Worked' },
@@ -49,7 +49,7 @@ export function GenerateDataStats(DailyLogs:DailyLog[]){
   const averagePointsAcummulated=getAveragePropLogs('pointsAcummulated',DailyLogs)
   const averageMood=getAveragePropLogs('mood',DailyLogs)
 
-  const statsDataAverage: Stats[] = [
+  const statsDataAverage: StatsListItem[] = [
     { value:Number.isInteger( averageHabitsCompleted) ? averageHabitsCompleted:averageHabitsCompleted.toFixed(2), label: 'Habits ' },
     { value:Number.isInteger( averageTasksCompleted) ? averageTasksCompleted:averageTasksCompleted.toFixed(2), label: 'Tasks' },
     { value: Number.isInteger( averagePointsAcummulated) ? averagePointsAcummulated:averagePointsAcummulated.toFixed(2), label: 'Points' },

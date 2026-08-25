@@ -1,7 +1,5 @@
-
-
 import EventStore from "../stores/events.store"
-import type { Task,TaskUnfound,Habit } from "../../ui/items/types/items.types"
+import type { Task,Habit } from "../../ui/items/types/items.types"
 const {getLastCompleted}=EventStore.getState()
 
 export function calculateNextDue(
@@ -139,7 +137,7 @@ export const isHabit = (item: any): item is Habit =>
     'repeat' in item
   )
 
-export const isTask = (item: any): item is TaskUnfound =>
+export const isTask = (item: any): item is Task =>
   !!(
     item &&
     typeof item === 'object' &&

@@ -24,7 +24,7 @@ export default function NothesPage(){
   },[selectedNothe]);
 
   return (
-    <div className="min-h-[80vh] pt-15  pl-9 max-[550px]:pt-6">
+    <div className="min-h-[80vh] pt-15">
       
       <h1 className="text-4xl  text-start font-light max-[600px]:text-xl   mb-8  ">Nothes</h1>
       {Nothes.length==0&&(

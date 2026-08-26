@@ -31,6 +31,7 @@ export default function Select<T extends string>({
         ${open ? 'rounded-t-3xl' : 'rounded-3xl'}
       bg-white/15   text-white hover:bg-white/30
       cursor-pointer transition-all text-md  duration-300 ease-in-out 
+      max-[530px]:text-sm 
         `}
       >
        {selectedLabel} 

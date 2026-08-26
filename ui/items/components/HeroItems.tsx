@@ -13,6 +13,7 @@ interface HeroItemsProps{
    setOrder: (order: "newest" | "oldest") => void,
    onClick:()=>void
 }
+
 export default function HeroItems({message,label,order,setOrder,onClick}:HeroItemsProps){
 
   const router=useRouter()
@@ -23,10 +24,10 @@ export default function HeroItems({message,label,order,setOrder,onClick}:HeroIte
       <p className="text-4xl  text-start font-light whitespace-pre-line max-[600px]:text-xl ">{`Let's work in  your daily goal`}</p>
       
       <div className="flex  gap-5">
-        <Button variant='primary' className="w-min text-md px-3 rounded-3xl py-1.5 " onClick={()=>router.push('/')}>
+        <Button variant='primary' className="w-min text-md px-3 rounded-3xl py-1.5 max-[530px]:text-sm " onClick={()=>router.push('/')}>
           Dashboard
         </Button>
-        <Select options={[{value:'newest',label:'Newest'},{value:'oldest',label:'Oldest'}]} value={order} onClick={(value)=>setOrder(value)} className="w-40 "/>
+        <Select options={[{value:'newest',label:'Newest'},{value:'oldest',label:'Oldest'}]} value={order} onClick={(value)=>setOrder(value)} className="w-min max-[530px]:text-sm  "/>
       </div>
 
       <div className="flex max-[550px]:flex-col  w-full items-center justify-start h-auto  max-[370px]:justify-center max-[370px]:mx-auto max-[370px]:w-auto  max-[530px]:mt-[-1vh]">

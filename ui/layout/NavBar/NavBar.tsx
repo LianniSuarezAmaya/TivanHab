@@ -52,9 +52,9 @@ export function NavBar({open,setOpen}:NavBarProps){
   return (
     <div  ref={NavBarRef} >
 
-      <nav onClick={handleEvent} className={`${open ? 'opacity-0 translate-y-3 scale-95 pointer-events-none ' : 'opacity-100 translate-y-0 scale-100 '}  fixed flex flex-col  justify-center   items-center h-min w-20 py-3 px-5 ml-4 mt-[4vh] rounded-[30px] z-999  backdrop-blur-2xl   bg-[#050412]/65 border border-primary/10 min-[600px]:opacity-0 min-[600px]:translate-y-3 min-[600px]:scale-95 min-[600px]:pointer-events-none max-[900px]:w-[8%] max-[700px]:w-[10%] max-[900px]:ml-[2%]`}>
+      <nav onClick={handleEvent} className={`${open ? 'opacity-0 translate-y-3 scale-95 pointer-events-none ' : 'opacity-80 -translate-x-5 mt-0 scale-100 '}  fixed flex flex-col  justify-center   items-center h-min w-20 py-3 px-5 ml-4 mt-[4vh] rounded-[30px] z-999  backdrop-blur-2xl   bg-[#050412]/65 border border-primary/40 min-[600px]:opacity-0 min-[600px]:translate-y-3 min-[600px]:scale-95 min-[600px]:pointer-events-none max-[900px]:w-[8%] max-[700px]:w-[10%] max-[900px]:ml-[2%]`}>
       
-      <Bars4Icon className={iconMobileClassName} onClick={()=>setOpen(!open)} />
+      <Bars4Icon className={`${iconMobileClassName} text-white/80`} onClick={()=>setOpen(!open)} />
 
       </nav>
 

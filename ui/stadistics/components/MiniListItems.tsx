@@ -26,14 +26,14 @@ export default function MiniListItems({items,moveItem,label}:MiniListEventsProps
   }
 
   return (
-    <div className={`w-[28vw] h-auto  min-h-50  flex py-6 gap-2 flex-col bg-primary/10 rounded-[50px] border border-primary/30 px-5 max-[550px]:gap-1  max-[550px]:min-h-38  max-[550px]:h-min max-[550px]:py-5 max-[550px]:px-4 max-[550px]:w-[65vw] max-[900px]:w-[40vw]  max-[900px]:gap-2    max-[1300px]:w-[35vw] `}>
+    <div className={`w-[28vw] h-auto  min-h-50  flex py-6 gap-2 flex-col bg-primary/10 rounded-[50px] border border-primary/30 px-5 max-[550px]:gap-1  max-[550px]:min-h-38  max-[550px]:h-min max-[550px]:py-5 max-[550px]:px-4 max-[550px]:w-[80vw] max-[900px]:w-[40vw]  max-[900px]:gap-2    max-[1300px]:w-[35vw] `}>
       <div className="flex  items-center justify-between ">
-        <h1 className="text-2xl font-light max-[530px]:text-lg max-[900px]:text-xl">{label}</h1>
+        <h1 className="text-2xl font-light max-[530px]:text-sm  max-[530px]:ml-2 max-[900px]:text-xl">{label}</h1>
         <Button onClick={()=>router.push(navigateTo)} variant='secondary' className="w-min text-sm px-3 rounded-3xl py-1.5 max-[530px]:text-xs  max-[550px]:py-1  max-[550px]:px-1.5 ">Details</Button>
       </div>
        
       {items.length>0&&(
-        <div >
+        <div className="w-full">
           {[...items].slice(0,4).map((item,index)=><MiniListItem item={item} moveItem={moveItem} key={index} />)}
         </div>
       )}

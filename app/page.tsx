@@ -34,7 +34,7 @@ export default function StadisticsPage(){
 
       <div className="flex flex-col   items-start gap-2 pl-0 w-full">
         <div className="flex justify-between w-full pr-9">
-          <h1 className="text-4xl  text-start ">Progress </h1>
+          <h1 className="text-4xl  text-start font-light whitespace-pre-line max-[600px]:text-xl ">Progress </h1>
           <WeeklyUsers/>
         </div>
         <Select options={[{value:'Task',label:'Tasks'},{value:'Habit',label:'Habits'},{value:'General',label:'General'},{value:'Today',label:'Today'},{value:'Week',label:'This Week'}]} value={typeChart} onClick={(val)=>changeTypeChart(val)} className={typeChart==='Week' ? 'w-34' : 'w-27`'}  />
@@ -43,7 +43,7 @@ export default function StadisticsPage(){
       <div className="h-auto mt-6 flex w-full flex-wrap justify-around items-start gap-10 mb-auto max-[1300px]:h-[40vh] max-[550px]:h-auto max-[550px]:gap-5 max-[1300px]:min-h-125">
         <div className="max-[900px]:w-full w-auto">
           <HeroChart type={typeChart}/>
-          <p className="text-center ">Mood Impact : {getMoodProductivyCorrelation(DailyLogs)}%</p>
+          <p className="text-center font-extralight max-[530px]:text-sm ">Mood Impact : {getMoodProductivyCorrelation(DailyLogs)}%</p>
         </div>
         <div className="w-auto h-auto pt-6 flex flex-col gap-8 max-[550px]:gap-3 max-[550px]:flex-col  max-[900px]:flex-row max-[900px]:pt-2 ">
           <MiniListItems items={HabitsToDo} moveItem={(val)=>moveItem(val)} label="Habits" />
@@ -51,11 +51,11 @@ export default function StadisticsPage(){
         </div>
       </div>
     
-      <h1 className="text-4xl mt-30  text-start ml-9 max-[550px]:mt-20 max-[1000px]:mt-40">Trend</h1>
+      <h1 className="text-4xl mt-30  text-start  max-[600px]:text-xl max-[550px]:mt-10 max-[1000px]:mt-20 font-extralight">Trend</h1>
       
-      <div className="flex  gap-5 ml-9 mt-5">
-        <Select options={[{value:'Days',label:'Last 7 days'},{value:'Weeks',label:'Last 4 weeks'}]} onClick={(value)=>changeTimeBar(value) } value={timeBar} className="w-43"/>
-        <Select options={[{value:'productivity',label:'Productivity'},{value:'points',label:'Points'}]} onClick={(value)=>changeTypeBar(value) } className="w-37" value={typeBar}/>
+      <div className="flex  gap-5  mt-1">
+        <Select options={[{value:'Days',label:'Last 7 days'},{value:'Weeks',label:'Last 4 weeks'}]} onClick={(value)=>changeTimeBar(value) } value={timeBar} className="w-43 max-[530px]:w-auto"/>
+        <Select options={[{value:'productivity',label:'Productivity'},{value:'points',label:'Points'}]} onClick={(value)=>changeTypeBar(value) } className="w-37 max-[530px]:w-37" value={typeBar}/>
       </div>
 
       <BarChart key={JSON.stringify(DailyLogs)} logs={DailyLogs} time={timeBar} prop={typeBar}/>    

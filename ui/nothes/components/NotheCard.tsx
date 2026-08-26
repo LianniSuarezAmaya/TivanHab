@@ -13,7 +13,7 @@ export function NotheCard({nothe}:NotheCardProps){
   const router=useRouter()
   return (
     <div className="flex flex-col w-[90%] border border-primary/30  bg-primary/5 rounded-[50px] py-8 text-start px-8">
-      <h3 className="text-2xl w-full  ">{nothe.title}</h3>
+      <h1 className="text-[1.8rem] whitespace-pre-line text-start max-[530px]:text-[16px] max-[530px]:leading-5 leading-8 m-0  max-[900px]:text-3xl">{nothe.title}</h1>
       <div className="w-[90%] ml-0 h-px mt-2 bg-primary/10 rounded-3xl"/>
       <h3 className="wrap-break-word">{nothe.content||'No content'}</h3>
       <div className="flex pl-7  justify-end  gap-2 mt-4 pt-2 max-[530px]:mt-2  "> 

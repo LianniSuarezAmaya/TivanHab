@@ -2,12 +2,13 @@ import { useUser } from "@/hooks/useUser";
 
 export function WeeklyUsers() {
   const {data,isError,isLoading,error} =  useUser().useWeeklyUsers;
+  
   if (isLoading) {
   return <h1 className="text-xs font-extralight text-white/80 ">Loading...</h1>
   }
 
   if (isError) {
-  return <h1 className="text-xs font-extralight text-red/80 ">{error.message}</h1>
+  return <></>
   }
 
   return (

@@ -31,7 +31,7 @@ export default function Comments(){
     return <p>Loading</p>;
   }
    if (data===undefined) {
-    return <p>There is not comments</p>;
+    return <p className="font-extralight text-lg">There is not comments</p>;
   }
 
   if (isError) {

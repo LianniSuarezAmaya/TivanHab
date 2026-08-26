@@ -15,8 +15,8 @@ export default function DashboardStatsItem({label,value}:DashboardStatsItemProps
     hover:backdrop-blur-sm
     hover:scale-[1.02]
     active:scale-[0.98]" >
-     <h3 className="font-light max-[550px]:text-[10px]">{label}</h3>
-     <p className="text-4xl  text-white/90 max-[550px]:text-[15px] max-[950px]:text-3xl">{value}</p>
+     <h3 className="font-light text-white max-[550px]:text-[10px]">{label}</h3>
+     <p className="text-4xl  text-white/80  max-[550px]:text-[10px] max-[950px]:text-3xl">{value}</p>
     </div>
    ) 
 }

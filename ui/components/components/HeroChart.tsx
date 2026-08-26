@@ -116,7 +116,7 @@ export const HeroChart = ({type}:HeroChartProps) => {
           series: prevOptions.series.map((s: any) => ({
         ...s,
         innerLabels: [
-          { text: 'Done', fontWeight: 'lighter', color: 'white', fontSize: isMobile ? 10 : isMedium ? 13 : 20 },
+          { text: 'Done', fontWeight: 'lighter', color: 'white', fontSize: isMobile ? 15 : isMedium ? 13 : 20 },
           { text:`${Number.isInteger((doneCount*100/Math.max(doneCount+todoCount,1))) ?(doneCount*100/Math.max(doneCount+todoCount,1)) :(doneCount*100/Math.max(doneCount+todoCount,1)).toFixed(2).toString()}%` , spacing: 4, fontSize: isMobile ? 17 : isMedium ? 33 : 44 , color: 'white' },
         ],
       })),

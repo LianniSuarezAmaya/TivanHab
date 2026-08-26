@@ -18,7 +18,7 @@ export function ItemCard({item}:ItemCardProps){
   const {startTask}=useTimer()
   
   return(
-    <div className="card border border-primary/30  bg-primary/5 rounded-[50px]  break-inside-avoid  text-white  py-8 px-10 w-[90%] h-min  max-[400px]:pl-3 max-[400px]:pr-4 max-[400px]:flex max-[400px]:flex-col max-[530px]:px-6 max-[530px]:py-6 max-[700px]:px-5  max-[900px]:px-8 max-[900px]:py-10    ">
+    <div className="card border border-primary/30  bg-primary/5 rounded-[50px]  break-inside-avoid  text-white  py-8 px-10 h-min w-full  max-[400px]:pl-3 max-[400px]:pr-4 max-[400px]:flex max-[400px]:flex-col max-[530px]:px-6 max-[530px]:py-6 max-[700px]:px-5  max-[900px]:px-8 max-[900px]:py-10    ">
       
       <div className="grid  items-start w-full  grid-cols-[10px_minmax(0,1fr)]  max-[400px]:w-[90%] max-[400px]:ml-[7%]  max-[530px]:gap-x-0  max-[530px]:grid-cols-[20px_minmax(0,1fr)] max-[530px]: gap-x-2    gap-y-0  "> 
         <div

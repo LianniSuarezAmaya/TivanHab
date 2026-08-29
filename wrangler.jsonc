@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "tivanhab",
+  "compatibility_date": "2026-08-28",  // ← CAMBIA: de "2026-08-25" a "2026-08-28"
+  "compatibility_flags": [
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "mi-app-next"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  },
+  // ← AÑADE estas configuraciones para que coincidan con el entorno remoto:
+  "workers_dev": true,
+  "preview_urls": true,
+
+}
